@@ -1,72 +1,50 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "foreign_workers";
-
-$conn = new mysqli($servername, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// 获取当前登录用户的用户名
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $admin_id = $_SESSION['admin_id'];
-    $stmt = $conn->prepare("SELECT admin_id FROM login_h_i_staff WHERE admin_id = ?");
-    $stmt->bind_param("s", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $current_user = htmlspecialchars($row['admin_id']);
-    }
-    $stmt->close();
-}
+require_once __DIR__ . '/../classes/DatabaseConnection.php';
+require_once __DIR__ . '/../classes/UserManager.php';
+require_once __DIR__ . '/../classes/BaseManager.php';
+require_once __DIR__ . '/../classes/ManagerInterface.php';
+require_once __DIR__ . '/../classes/AppointmentManager.php';
 
 $message_script = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
-    $new_status = $_POST['status'];
-    $appointment_id = $_POST['appointment_id'];
 
-    if ($appointment_id && in_array($new_status, ['pending', 'approved', 'rejected'])) {
-        $stmt = $conn->prepare("UPDATE appointments SET status = ? WHERE appointment_id = ?");
-        $stmt->bind_param("si", $new_status, $appointment_id);
-        $stmt->execute();
-        $stmt->close();
+try {
+    // 初始化数据库连接
+    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $conn = $db->getConnection();
 
-        $message_script = "<script>alert('Status updated successfully.');</script>";
-    } else {
-        $message_script = "<script>alert('Invalid input.');</script>";
+    // 获取当前用户
+    $userManager = new UserManager($conn);
+    $current_user = $userManager->getCurrentUser($_SESSION);
+
+    // 处理预约逻辑
+    $appointmentManager = new AppointmentManager($conn);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['update_status'])) {
+            $new_status = $_POST['status'];
+            $appointment_id = $_POST['appointment_id'];
+            if ($appointmentManager->updateAppointmentStatus($appointment_id, $new_status)) {
+                $message_script = "<script>alert('Status updated successfully.');</script>";
+            } else {
+                $message_script = "<script>alert('Invalid input.');</script>";
+            }
+        }
+    }
+
+    // 获取预约列表
+    $filter_status = $_POST['filter_status'] ?? '';
+    $appointments = $appointmentManager->getAppointments($filter_status);
+
+} catch (Exception $e) {
+    // 捕获异常并显示错误消息
+    $message_script = "<script>alert('Error: " . $e->getMessage() . "');</script>";
+} finally {
+    // 确保数据库连接被关闭
+    if (isset($db)) {
+        $db->closeConnection();
     }
 }
-
-// Filter by status
-$filter_status = $_POST['filter_status'] ?? '';
-
-$sql = "SELECT 
-            r.medical_id, 
-            r.full_name AS name, 
-            r.email, 
-            a.appointment_date, 
-            a.appointment_time, 
-            a.status,
-            a.user_id,
-            a.appointment_id
-        FROM appointments a
-        JOIN registration r ON a.user_id = r.user_id";
-
-if (!empty($filter_status)) {
-    $sql .= " WHERE a.status = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $filter_status);
-} else {
-    $stmt = $conn->prepare($sql);
-}
-
-$stmt->execute();
-$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -116,9 +94,9 @@ $result = $stmt->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php if ($result && $result->num_rows > 0): 
+            <?php if ($appointments && $appointments->num_rows > 0): 
                 $i = 1;
-                while ($row = $result->fetch_assoc()): ?>
+                while ($row = $appointments->fetch_assoc()): ?>
                 <tr>
                     <form method="post">
                         <td><?= $i++ ?></td>
