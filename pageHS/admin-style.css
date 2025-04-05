@@ -1,0 +1,179 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: linear-gradient(180deg, #e6f7ff, #cce7ff);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+/* 头部样式 */
+header {
+    background-color: #0D47A1; /* 深蓝色 */
+    color: white;
+    padding: 10px 20px;
+    font-size: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #004a99;
+    color: white;
+    padding: 10px 20px;
+}
+header span {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    letter-spacing: 1px;
+}
+/* 主容器 */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+    margin-top: 60px;
+}
+
+/* 卡片样式 */
+.card {
+    background-color:white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    width: 600px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card p {
+    margin-bottom: 25px;  /* 只为段落和按钮之间添加间距 */
+}
+.card h2 {
+    margin-bottom: 9px;  /* 标题和段落之间的间距 */
+}
+.card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px tgba(0,0,0,0.15);
+}
+
+/* 按钮样式 */
+.btn {
+    background-color: #FF6F00; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-decoration: none;
+    box-shadow: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color:#E65100;
+    transform: translateY(-2px)
+}
+
+.card button {
+    width: 180px; 
+}
+
+footer {
+    background-color: #0D47A1;
+    color: white;
+    padding: 5px;
+    margin-top: 155px;
+    text-align: center;
+    font-size: 13px;
+}
+
+#admin-page {
+    background-image: url('/images/hospital-img.jpg'); /* Update to your saved image filename */
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Add this to ensure content remains visible against the background */
+.container .card {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+}
+
+/* Optional: Add an overlay to improve text readability if needed */
+#admin-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Dark overlay - adjust opacity as needed */
+    z-index: -1;
+}
+  
+.logout-btn {
+    padding: 8px 19px; /* Adjust padding for a smaller button */
+    background-color: #f8350e; /* Matches the orange color in the screenshot */
+    color:  white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    border: 2px solid #f8350e; /* Adds a border similar to the buttons in the screenshot */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+}
+
+.logout-btn:hover {
+    background-color: orange; /* Changes background to white on hover */
+    color: white; /* Changes text color to orange on hover */
+    border-color: orange; /* Keeps the border orange on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Increases shadow on hover */
+}
+
+/* User Icon Styling */
+.user-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50px; /* Adjust to position below the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* Show Tooltip on Hover */
+.user-icon-container:hover .tooltip {
+    display: block;
+}

@@ -1,0 +1,109 @@
+/* 页面整体样式 */
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #ffffff; /* 白色背景 */
+  margin: 0;
+  padding: 0;
+  display: flex; /* 启用flexbox布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  height: 100vh; /* 占满视口高度 */
+  box-sizing: border-box; /* 确保内边距和边框计算在内 */
+}
+
+.page-header {
+  background-color: #004a99;
+  padding: 20px 30px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex; /* Arrange logo and text horizontally */
+  align-items: center; /* Align logo and text vertically */
+  justify-content: center; /* Center content */
+}
+
+.page-header .logo {
+  max-height: 50px; /* Adjust logo height */
+  margin-right: 15px; /* Space between logo and text */
+}
+
+.page-header h1 {
+  margin: 0;
+  color: white; /* 白色字体 */
+  font-size: 24px;
+  text-align: center;
+}
+
+/* 登录框样式 */
+.login-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+  border: 1px solid #004a99; /* 蓝色边框 */
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #004a99; /* 蓝色小标题 */
+}
+
+/* 输入框的边距与样式 */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #004a99;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #004a99;
+  border-radius: 5px;
+  background-color: #f0f8ff; /* 浅蓝背景 */
+  box-sizing: border-box; /* 确保内边距计算在宽度中 */
+}
+
+/* 调整按钮与字体颜色 */
+.radio-buttons label {
+  margin: 5px 0;
+  display: block;
+  color: #004a99;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #004a99;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #003366; /* 按钮悬停的深蓝色 */
+}
+
+.back-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6f00; /* Orange */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px; /* Adds spacing above */
+}
+
+.back-button:hover {
+  background-color: #e65c00; /* Darker orange on hover */
+}

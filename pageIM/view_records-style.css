@@ -1,0 +1,264 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9f1f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #0d47a1;
+    padding: 9px;
+    font-size: 15px;
+    text-align: left;
+    color: white;
+}
+
+/* Table Container */
+.table-container {
+    margin: 30px auto;
+    padding: 20px;
+    width: 80%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #004aad;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.status.passed {
+    color: green;
+    font-weight: bold;
+}
+
+.status.failed {
+    color: red;
+    font-weight: bold;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #0d47a1;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Search Filters */
+.search-filter {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 800px;
+    text-align: left;
+    overflow-y: auto;
+    max-height: 90vh;
+    box-sizing: border-box;
+}
+
+/* Form Grid Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+}
+
+.form-grid label {
+    margin-top: 10px;
+    grid-column: span 2;
+    font-weight: bold;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-grid textarea {
+    resize: vertical;
+}
+
+.modal-content button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #0d47a1;
+    color: #fff;
+    border-radius: 8px;
+    grid-column: span 2;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* Footer */
+footer {
+    background-color: #004aad;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 13px;
+}
+
+/* Responsive Modal */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        margin-top: 10%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid button[type="submit"] {
+        grid-column: span 1;
+    }
+}
+
+/* Style for readonly and disabled inputs */
+input[readonly],
+input:read-only,
+select:disabled,
+textarea[readonly] {
+    background-color: #f5f5f5;
+    color: #555;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.back-to-main {
+    text-align: center;
+    margin: 20px 0 60px; /* 添加底部间距，避免被 footer 覆盖 */
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8350e;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: orange;
+}
+
+.user-icon-container {
+    position: absolute;
+    top: 15px;
+    right: 30px; /* 调整位置 */
+    display: inline-block;
+    z-index: 1001;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 85%;
+    transform: translateX(-85%);
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 10;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.user-icon-container:hover .tooltip {
+    display: block;
+}

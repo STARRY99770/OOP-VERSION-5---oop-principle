@@ -1,0 +1,352 @@
+/* 通用样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6f7ff;
+    color: #000;
+}
+
+/* Header 样式 */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjusted to space items between */
+    background-color: #004a99;
+    color: white;
+    padding: 10px 20px;
+    position: fixed; /* Fixed header */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* 背景图片样式 */
+.background {
+    position: fixed; /* 固定背景，不随滚动移动 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 占满整个页面宽度 */
+    height: 100%; /* 占满整个页面高度 */
+    background-image: url('/images/bg.jpg'); /* 替换为你的背景图片路径 */
+    background-size: cover; /* 确保图片适应屏幕大小 */
+    background-position: center; /* 居中显示图片 */
+    filter: brightness(50%); /* 调低亮度 */
+    z-index: -1; /* 放置在内容后面 */
+}
+
+.menu-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    margin-right: 15px;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-left: 250px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-left: 0px;
+}
+
+/* 侧边栏样式 */
+.sidebar { 
+    position: fixed; /* 确保 sidebar 固定在页面上，不会被 main 等影响 */ 
+    top: 0; 
+    left: -250px; /* 默认隐藏在左侧 */ 
+    height: 100%; width: 250px; /* 宽度固定 */ 
+    background-color: #004a99; 
+    padding-top: 20px; 
+    transition: left 0.3s ease; /* 平滑滑出效果 */ 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 阴影效果 */ 
+    z-index: 10000; /* 确保在所有元素上方 */ 
+    text-decoration: none;
+    outline: none; /* Removes focus outline (important) */
+    box-shadow: none; /* Prevents any focus ring */
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sidebar button:hover {
+    text-decoration: none; /* Ensures no underline */
+    color: white; /* Keeps text color consistent */
+    background-color: #003366; /* Retains hover background */
+}
+
+
+/* 主内容区域 */
+main {
+    text-align: center;
+    padding: 20px;
+    padding-top: 60px; /* Adjusted to account for fixed header */
+}
+
+.welcome h2 {
+    color: #ffffff;
+}
+
+.contact {
+    background-color: #cce6ff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+.contact p {
+    font-size: 1rem; /* 段落文字大小 */
+    color: #000; /* 段落文字颜色 */
+    text-align: left; /* 水平居左 */
+    margin: 10px 0; /* 每段的上下间距 */
+}
+
+.contact h3 {
+    color: #004a99; /* 设置标题颜色 */
+    font-size: 1.8rem; /* 标题大小 */
+    margin-bottom: 10px; /* 与内容的间距 */
+    text-align: center; /* 标题居中 */
+}
+
+.contact strong {
+    color: #004a99; /* 突出Email和Phone的标签 */
+}
+
+/* 顶部右侧容器样式 */
+.top-right-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 30px;
+}
+
+/* Login 按钮样式 */
+.login-btn,
+.top-right-container button {
+    font-weight: bold;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover,
+.top-right-container button:hover {
+    background-color: #cc5500;
+}
+
+/* Notification 样式 */
+.notification {
+    background-color: #ff6600;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+
+/* 图片居中容器样式 */
+.center-image {
+    flex: 1; /* 图片占 50% */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 图片居中 */
+    background-color: #f5f5f5; /* 可选：图片区域背景颜色 */
+}
+
+.center-image img {
+    max-width: 100%; /* 确保图片适应容器 */
+    height: auto; /* 保持图片比例 */
+    border-radius: 10px; /* 添加圆角（可选） */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 设置阴影 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 鼠标悬停时的效果 */
+}
+
+.center-image img:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 增强阴影效果 */
+}
+
+/* 注册按钮样式 */
+.register {
+    text-align: center; /* 居中对齐 */
+    margin: 30px auto 20px; /* 调整上下间距 */
+}
+
+.register button {
+    font-size: 20px; /* 更显眼的字体 */
+    padding: 15px 25px; /* 按钮内边距，增加点击区域 */
+    background-color: #ff6600; /* 突出按钮颜色 */
+    color: white;
+    border: none;
+    border-radius: 8px; /* 圆角风格 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register button:hover {
+    background-color: #cc5500; /* 悬停时颜色变化 */
+}
+
+.flex-container {
+    display: flex; /* 图片和文字并排布局 */
+    align-items: center; /* 垂直方向居中 */
+    justify-content: flex-start; /* 水平方向从左到右对齐 */
+    gap: 30px; /* 图片和文字之间的间隔 */
+    margin-top: 20px;
+}
+
+.text-content {
+    flex: 1; /* 占用剩余空间 */
+    background-color: #cce6ff; /* 设置背景颜色 */
+    padding: 20px; /* 增加内边距，避免文字贴边 */
+    border-radius: 10px; /* 圆角效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+    text-align: left; /* 文字水平居左 */
+    line-height: 1.8; /* 提高文字行距 */
+    color: #000; /* 文字颜色 */
+    position: relative; /* 用于按钮位置的调整 */
+}
+
+.text-content h3 {
+    margin-bottom: 10px; /* 标题和段落之间的间距 */
+    color: #004a99; /* 标题颜色 */
+    font-size: 1.5rem; /* 突出标题 */
+}
+
+.text-content p {
+    margin-bottom: 15px; /* 增加段落底部间距 */
+    font-size: 16px; /* 段落文字大小 */
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column; /* 图片和文字垂直排列 */
+        align-items: center; /* 居中对齐内容 */
+        padding: 10px; /* 给内容增加一些内边距 */
+    }
+
+    .text-content {
+        text-align: center;
+        padding-top: 10px; /* 图片和文字的间距 */
+    }
+
+    .center-image img {
+        max-width: 80%; /* 图片宽度调整为 80% 屏幕宽度 */
+    }
+}
+
+.about {
+    background-color: #cce6ff; /* 背景颜色 */
+    padding: 20px; /* 内边距 */
+    border-radius: 10px; /* 圆角效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    width: 80%;
+    margin: 20px auto; /* 居中对齐 */
+    text-align: center; /* 标题和介绍文本居中 */
+}
+
+.about h3 {
+    color: #004a99;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.about p {
+    color: #000;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.grid-container { 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列布局 */
+    gap: 20px; /* 格子之间的间距 */
+    justify-items: center; /* 水平方向居中 */
+    align-items: start; /* 垂直方向顶部对齐 */
+}
+
+.grid-item {
+    position: relative; /* 确保隐藏内容在当前格子内定位 */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    text-align: center; /* 中心对齐标题和内容 */
+    overflow: hidden; /* 防止内容超出格子范围 */
+}
+
+.grid-item:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.grid-item h4 {
+    margin: 0;
+    color: #004a99;
+    font-size: 1.2rem;
+}
+
+.hidden-content {
+    display: none; /* 默认隐藏内容 */
+    color: #000; /* 内容文字颜色 */
+    font-size: 0.9rem; /* 内容文字大小 */
+    margin-top: 10px; /* 与标题保持间距 */
+    overflow-y: auto; /* 如果内容超出高度，显示滚动条 */
+    max-height: 150px; /* 限制最大高度 */
+    padding-right: 10px; /* 避免滚动条遮挡文字 */
+    text-align: left; /* 设置内容水平居左 */
+    line-height: 1.6; /* 增加行距以提高可读性 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡效果 */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
+    z-index: 999; /* 确保位于内容之上但低于 sidebar */
+    display: none; /* 默认隐藏 */
+}
+
+.overlay.active {
+    display: block; /* 显示遮罩层 */
+}

@@ -1,0 +1,234 @@
+/* General Reset */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 禁止水平滚动条 */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6f2ff;
+}
+
+/* Header */
+.header {
+    position: relative; /* 确保子元素的绝对定位基于 header */
+    background-color: #0d47a1;
+    padding: 10px;
+    font-size: 11px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    color: white;
+    width: 100%; /* 确保 header 不超出页面宽度 */
+    box-sizing: border-box; /* 包括 padding 在内 */
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Search and Filter Section */
+.search-filter {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.date-bar{
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.medical-bar,
+.date-filter {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background-color: #0d47a1;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #093278;
+}
+
+.search-bar {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Table Styling */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.appointment-table th,
+.appointment-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.appointment-table thead {
+    background-color: #0d47a1;
+    color: #fff;
+}
+
+.appointment-table tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+/* Action Buttons Styling */
+.action-buttons button {
+    padding: 8px 14px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+.update-btn {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background-color: #135016;
+    transform: scale(1.05);
+}
+
+/* Appointment Details Card */
+.appointment-details {
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+    background-color: #e3f2fd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State */
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    color: #888;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+}
+
+/* Footer */
+.footer {
+    background-color: #0d47a1;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 13px;
+}
+
+/* Back to Main Button */
+.back-to-main {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8350e;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: orange;
+}
+
+.user-icon-container {
+    position: absolute; /* 绝对定位 */
+    top: 15px; /* 距顶部的距离 */
+    right: 30px; /* 紧贴右边 */
+    display: inline-block;
+    z-index: 1001; /* 确保用户图标和 tooltip 在最上层 */
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50px; /* Adjust to position below the icon */
+    left: 85%;
+    transform: translateX(-85%);
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 10;
+    white-space: nowrap;
+    text-align: center; /* 确保文字居中 */
+}
+
+/* Show Tooltip on Hover */
+.user-icon-container:hover .tooltip {
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .search-filter {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .action-buttons button,
+    .back-btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}

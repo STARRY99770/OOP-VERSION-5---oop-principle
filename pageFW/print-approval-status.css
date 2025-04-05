@@ -1,0 +1,261 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('/images/fw.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px; /* Increased padding to prevent footer overlap */
+}
+
+body::before {
+    content: "";
+    position: fixed; /* Changed to fixed to ensure full coverage */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.header {
+    width: 100%;
+    background-color: #0056b3;
+    display: flex;
+    justify-content: space-between; /* Ensure space between left and right sections */
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.header .left-section {
+    display: flex;
+    align-items: center; /* Align logo and title on the same row */
+    gap: 10px; /* Add spacing between logo and title */
+}
+
+.header .right-section {
+    display: flex;
+    align-items: center; /* Align profile icon and username button */
+    gap: 10px; /* Add spacing between elements */
+    margin-left: auto; /* Push to the far right */
+}
+
+.profile-wrapper {
+    position: relative;
+    margin-right: 150px; /* Remove extra margin */
+    display: flex;
+    align-items: center; /* Align profile icon and username */
+    gap: 10px; /* Add spacing between profile icon and username */
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    min-width: 180px;
+}
+
+.profile-dropdown p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+
+.username-display {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: #004aad; /* Match header color */
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+.username-display:hover {
+    background-color: #003580; /* Slightly darker on hover */
+}
+
+.header .logo {
+    margin-right: 10px; /* Adjusted margin */
+}
+
+.header .logo img {
+    height: 40px; /* Adjusted height */
+}
+
+.header .title {
+    color: white;
+    font-size: 25px; /* Adjusted font size */
+    font-weight: bold;
+    margin-left: 10px; /* Add margin to the left */
+}
+
+
+/* Container Styling */
+.container {
+    margin: 30px auto; /* Center align */
+    padding: 20px;
+    width: 80%; /* Adjusted width for uniformity */
+    background-color: #fff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+}
+
+/* Back to Main Page Button */
+.back-to-main {
+    text-align: center;
+    margin: 20px 0; /* Add spacing */
+}
+
+.back-to-main button {
+    padding: 12px 24px; /* Slightly larger button */
+    font-size: 16px; /* Adjusted font size */
+    background-color: #FF6F00;
+    color: #fff;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    outline: none; /* Remove blue outline */
+}
+
+.back-to-main button:hover {
+    background-color: #E65100;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.option {
+    text-align: center;
+    flex: 1;
+}
+
+.option img {
+    max-width: 150px;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button Styling */
+button {
+    padding: 8px 16px; /* Reduced size */
+    font-size: 14px; /* Adjusted font size */
+    background-color: #FF6F00;
+    color: #fff;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    margin-top: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none; /* Remove blue outline */
+}
+
+button:hover {
+    background-color: #E65100;
+}
+
+.upload-section {
+    text-align: center;
+}
+
+/* Table Styling */
+table {
+    width: 80%; /* Adjusted width for uniformity */
+    margin: 30px auto; /* Center align and add spacing */
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text in table */
+}
+
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #004aad;
+    color: white;
+    font-weight: bold;
+    text-align: center; /* Center align header text */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Shared Footer Styling for Other Pages */
+.footer {
+    background-color: #0d47a1;
+    color: white;
+    text-align: centre;
+    padding: -50px; /* Reduced padding */
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font: size 11px; /* Reduced font size */
+}
