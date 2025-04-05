@@ -1,10 +1,15 @@
 <?php
 session_start();
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $current_user = htmlspecialchars($_SESSION['admin_id']);
+
+class SessionManager {
+    public static function getCurrentUser() {
+        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
+    }
 }
+
+$current_user = SessionManager::getCurrentUser();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +17,9 @@ if (isset($_SESSION['admin_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Immigration Staff - E-Health Management System</title>
     <link rel="stylesheet" href="/pageIM/Immigration-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body id="immigration-page"></body>
-<body>
+<body id="immigration-page">
     <header>
         <h1>Immigration Staff</h1>
         <div class="user-icon-container">

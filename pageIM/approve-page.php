@@ -1,73 +1,113 @@
 <?php
 session_start();
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $current_user = htmlspecialchars($_SESSION['admin_id']);
-}
 
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "foreign_workers";
+class Database {
+    private $host = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "foreign_workers";
+    public $connection;
 
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Update permit_status and generate permit_id logic
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {
-    $form_id = $_POST['form_id'];
-    $status = $_POST['status'];
-    $status_updated_date = date("Y-m-d");
-
-    if ($status === "Approved") {
-        // Check if permit_id already exists
-        $checkStmt = $conn->prepare("SELECT permit_id FROM forms WHERE form_id = ?");
-        $checkStmt->bind_param("i", $form_id);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
-        $row = $checkResult->fetch_assoc();
-        $checkStmt->close();
-
-        $valid_until = date("Y-m-d", strtotime("+1 year"));
-
-        if (empty($row['permit_id'])) {
-            // Generate new Permit ID
-            $permit_id = "PRM-" . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-            // Update permit_id, valid_until, status, date
-            $stmt = $conn->prepare("UPDATE forms SET permit_status = ?, permit_id = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
-            $stmt->bind_param("ssssi", $status, $permit_id, $status_updated_date, $valid_until, $form_id);
-        } else {
-            // Permit already exists – just update date, status, and valid_until
-            $stmt = $conn->prepare("UPDATE forms SET permit_status = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
-            $stmt->bind_param("sssi", $status, $status_updated_date, $valid_until, $form_id);
+    public function __construct() {
+        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+        if ($this->connection->connect_error) {
+            die("Connection failed: " . $this->connection->connect_error);
         }
-    } else {
-        // Rejected or Pending – clear permit fields
-        $stmt = $conn->prepare("UPDATE forms SET permit_status = ?, permit_id = NULL, status_updated_date = NULL, valid_until = NULL WHERE form_id = ?");
-        $stmt->bind_param("si", $status, $form_id);
     }
 
-    $stmt->execute();
-    $stmt->close();
+    public function getConnection() {
+        return $this->connection;
+    }
 
-    echo "<script>alert('Form ID {$form_id} updated successfully'); window.location.href='approve-page.php';</script>";
+    public function closeConnection() {
+        $this->connection->close();
+    }
+}
+
+class SessionManager {
+    public static function start() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    public static function getCurrentUser() {
+        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
+    }
+}
+
+class FormManager {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function updateFormStatus($form_id, $status) {
+        $status_updated_date = date("Y-m-d");
+        $connection = $this->db->getConnection();
+
+        if ($status === "Approved") {
+            $checkStmt = $connection->prepare("SELECT permit_id FROM forms WHERE form_id = ?");
+            $checkStmt->bind_param("i", $form_id);
+            $checkStmt->execute();
+            $checkResult = $checkStmt->get_result();
+            $row = $checkResult->fetch_assoc();
+            $checkStmt->close();
+
+            $valid_until = date("Y-m-d", strtotime("+1 year"));
+
+            if (empty($row['permit_id'])) {
+                $permit_id = "PRM-" . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+                $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, permit_id = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
+                $stmt->bind_param("ssssi", $status, $permit_id, $status_updated_date, $valid_until, $form_id);
+            } else {
+                $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
+                $stmt->bind_param("sssi", $status, $status_updated_date, $valid_until, $form_id);
+            }
+        } else {
+            $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, permit_id = NULL, status_updated_date = NULL, valid_until = NULL WHERE form_id = ?");
+            $stmt->bind_param("si", $status, $form_id);
+        }
+
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function getFilteredForms($filter) {
+        $connection = $this->db->getConnection();
+        $sql = "SELECT f.form_id, r.medical_id, r.full_name, r.email, f.health_status, f.comment, f.permit_status, f.permit_id, f.status_updated_date, f.valid_until
+                FROM registration r
+                JOIN forms f ON r.user_id = f.user_id";
+
+        if (in_array($filter, ['Approved', 'Rejected', 'Pending'])) {
+            $sql .= " WHERE f.permit_status = '$filter'";
+        }
+
+        return $connection->query($sql);
+    }
+}
+
+class FormFilter {
+    public static function getFilter() {
+        return isset($_GET['filter']) ? $_GET['filter'] : '';
+    }
+}
+
+// Main Execution
+$db = new Database();
+$formManager = new FormManager($db);
+SessionManager::start();
+$current_user = SessionManager::getCurrentUser();
+$filter = FormFilter::getFilter();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {
+    $formManager->updateFormStatus($_POST['form_id'], $_POST['status']);
+    echo "<script>alert('Form ID {$_POST['form_id']} updated successfully'); window.location.href='approve-page.php';</script>";
     exit();
 }
 
-// Filtering logic
-$filter = isset($_GET['filter']) ? $_GET['filter'] : '';
-$sql = "SELECT f.form_id, r.medical_id, r.full_name, r.email, f.health_status, f.comment, f.permit_status, f.permit_id, f.status_updated_date, f.valid_until
-        FROM registration r
-        JOIN forms f ON r.user_id = f.user_id";
-
-if (in_array($filter, ['Approved', 'Rejected', 'Pending'])) {
-    $sql .= " WHERE f.permit_status = '$filter'";
-}
-
-$result = $conn->query($sql);
+$result = $formManager->getFilteredForms($filter);
 ?>
 
 <!DOCTYPE html>
@@ -187,4 +227,4 @@ $result = $conn->query($sql);
 </body>
 </html>
 
-<?php $conn->close(); ?>
+<?php $db->closeConnection(); ?>

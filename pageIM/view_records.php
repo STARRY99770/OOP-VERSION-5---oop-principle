@@ -1,61 +1,94 @@
 <?php
 session_start();
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $current_user = htmlspecialchars($_SESSION['admin_id']);
+
+class Database {
+    private $host = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "foreign_workers";
+    public $connection;
+
+    public function __construct() {
+        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+        if ($this->connection->connect_error) {
+            die("Connection failed: " . $this->connection->connect_error);
+        }
+    }
+
+    public function getConnection() {
+        return $this->connection;
+    }
+
+    public function closeConnection() {
+        $this->connection->close();
+    }
 }
 
-// Process form submission BEFORE any HTML output
+class SessionManager {
+    public static function getCurrentUser() {
+        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
+    }
+}
+
+class RecordManager {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function getAllRecords() {
+        $connection = $this->db->getConnection();
+        $sql = "SELECT * FROM registration";
+        return $connection->query($sql);
+    }
+
+    public function updateRecord($data) {
+        $connection = $this->db->getConnection();
+        $sql = "UPDATE registration SET 
+            phone_number = ?, 
+            company_name = ?, 
+            company_address = ?, 
+            employer_name = ?, 
+            employer_phone = ?, 
+            office_phone = ?, 
+            email = ?
+            WHERE medical_id = ?";
+
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param(
+            "ssssssss",
+            $data['phone_number'],
+            $data['company_name'],
+            $data['company_address'],
+            $data['employer_name'],
+            $data['employer_phone'],
+            $data['office_phone'],
+            $data['email'],
+            $data['medical_id']
+        );
+
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+}
+
+// Main Execution
+$db = new Database();
+$recordManager = new RecordManager($db);
+$current_user = SessionManager::getCurrentUser();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
-    $conn = new mysqli("localhost", "root", "", "foreign_workers");
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    function sanitize($data) {
-        return htmlspecialchars(trim($data));
-    }
-
-    $medical_id = sanitize($_POST['medical_id']);
-    $phone_number = sanitize($_POST['phone_number']);
-    $company_name = sanitize($_POST['company_name']);
-    $company_address = sanitize($_POST['company_address']);
-    $employer_name = sanitize($_POST['employer_name']);
-    $employer_phone = sanitize($_POST['employer_phone']);
-    $office_phone = sanitize($_POST['office_phone']);
-    $email = sanitize($_POST['email']);
-
-    $sql = "UPDATE registration SET 
-        phone_number = ?, 
-        company_name = ?, 
-        company_address = ?, 
-        employer_name = ?, 
-        employer_phone = ?, 
-        office_phone = ?, 
-        email = ?
-        WHERE medical_id = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssss", 
-        $phone_number, 
-        $company_name, 
-        $company_address, 
-        $employer_name, 
-        $employer_phone, 
-        $office_phone, 
-        $email,
-        $medical_id
-    );
-
-    if ($stmt->execute()) {
+    $data = array_map('htmlspecialchars', $_POST);
+    if ($recordManager->updateRecord($data)) {
         echo "<script>alert('Information updated successfully!');</script>";
     } else {
-        echo "<script>alert('Update failed: " . $stmt->error . "');</script>";
+        echo "<script>alert('Update failed.');</script>";
     }
-
-    $stmt->close();
-    $conn->close();
 }
+
+$records = $recordManager->getAllRecords();
 ?>
 
 <!DOCTYPE html>
@@ -96,17 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
     </thead>
     <tbody>
       <?php
-      $conn = new mysqli("localhost", "root", "", "foreign_workers");
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
-
-      $sql = "SELECT * FROM registration";
-      $result = $conn->query($sql);
-
-      if ($result->num_rows > 0) {
+      if ($records->num_rows > 0) {
         $count = 1;
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $records->fetch_assoc()) {
           echo "<tr>";
           echo "<td>" . $count++ . "</td>";
           echo "<td>" . htmlspecialchars($row["medical_id"]) . "</td>";
@@ -118,8 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
       } else {
         echo "<tr><td colspan='5'>No records found</td></tr>";
       }
-
-      $conn->close();
       ?>
     </tbody>
   </table>
@@ -225,3 +248,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
 
 </body>
 </html>
+
+<?php $db->closeConnection(); ?>
