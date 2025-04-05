@@ -267,5 +267,3 @@ try {
 </body>
 </html>
 
-
-hi my name is 
