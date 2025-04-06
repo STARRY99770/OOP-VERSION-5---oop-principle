@@ -1,16 +1,17 @@
 <?php
 require_once '../classes/Database.php';
-require_once '../classes/SessionManager.php';
+require_once '../classes/UserManager.php';
 require_once '../classes/FormManagerHS.php';
 require_once '../classes/FormFilter.php';
 
 session_start();
 
-// Main Execution
 $db = new Database();
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
 $formManager = new FormManagerHS($db);
-SessionManager::start();
-$current_user = SessionManager::getCurrentUser();
+
+$current_user = $userManager->getCurrentUser($_SESSION);
 $filter = FormFilter::getFilter();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {

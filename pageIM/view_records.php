@@ -1,11 +1,15 @@
 <?php
 require_once '../classes/Database.php';
-require_once '../classes/SessionManager.php';
+require_once '../classes/UserManager.php';
 require_once '../classes/RecordManager.php';
 
 $db = new Database();
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
 $recordManager = new RecordManager($db);
-$current_user = SessionManager::getCurrentUser();
+
+session_start();
+$current_user = $userManager->getCurrentUser($_SESSION);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
     $data = array_map('htmlspecialchars', $_POST);

@@ -1,9 +1,14 @@
 <?php
-require_once '../classes/SessionManager.php';
+require_once '../classes/Database.php';
+require_once '../classes/UserManager.php';
 
 session_start();
 
-$current_user = SessionManager::getCurrentUser();
+$db = new Database();
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
+
+$current_user = $userManager->getCurrentUser($_SESSION);
 ?>
 
 <!DOCTYPE html>
