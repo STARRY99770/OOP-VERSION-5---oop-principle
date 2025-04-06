@@ -1,104 +1,17 @@
 <?php
+require_once '../classes/DatabaseConnection.php';
+require_once '../classes/UserManager.php';
+require_once '../classes/FormManagerHS.php';
+require_once '../classes/FormFilter.php';
+
 session_start();
 
-class Database {
-    private $host = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $database = "foreign_workers";
-    public $connection;
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
+$formManager = new FormManagerHS($db);
 
-    public function __construct() {
-        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
-        if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
-        }
-    }
-
-    public function getConnection() {
-        return $this->connection;
-    }
-
-    public function closeConnection() {
-        $this->connection->close();
-    }
-}
-
-class SessionManager {
-    public static function start() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
-    public static function getCurrentUser() {
-        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
-    }
-}
-
-class FormManager {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function updateFormStatus($form_id, $status) {
-        $status_updated_date = date("Y-m-d");
-        $connection = $this->db->getConnection();
-
-        if ($status === "Approved") {
-            $checkStmt = $connection->prepare("SELECT permit_id FROM forms WHERE form_id = ?");
-            $checkStmt->bind_param("i", $form_id);
-            $checkStmt->execute();
-            $checkResult = $checkStmt->get_result();
-            $row = $checkResult->fetch_assoc();
-            $checkStmt->close();
-
-            $valid_until = date("Y-m-d", strtotime("+1 year"));
-
-            if (empty($row['permit_id'])) {
-                $permit_id = "PRM-" . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-                $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, permit_id = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
-                $stmt->bind_param("ssssi", $status, $permit_id, $status_updated_date, $valid_until, $form_id);
-            } else {
-                $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, status_updated_date = ?, valid_until = ? WHERE form_id = ?");
-                $stmt->bind_param("sssi", $status, $status_updated_date, $valid_until, $form_id);
-            }
-        } else {
-            $stmt = $connection->prepare("UPDATE forms SET permit_status = ?, permit_id = NULL, status_updated_date = NULL, valid_until = NULL WHERE form_id = ?");
-            $stmt->bind_param("si", $status, $form_id);
-        }
-
-        $stmt->execute();
-        $stmt->close();
-    }
-
-    public function getFilteredForms($filter) {
-        $connection = $this->db->getConnection();
-        $sql = "SELECT f.form_id, r.medical_id, r.full_name, r.email, f.health_status, f.comment, f.permit_status, f.permit_id, f.status_updated_date, f.valid_until
-                FROM registration r
-                JOIN forms f ON r.user_id = f.user_id";
-
-        if (in_array($filter, ['Approved', 'Rejected', 'Pending'])) {
-            $sql .= " WHERE f.permit_status = '$filter'";
-        }
-
-        return $connection->query($sql);
-    }
-}
-
-class FormFilter {
-    public static function getFilter() {
-        return isset($_GET['filter']) ? $_GET['filter'] : '';
-    }
-}
-
-// Main Execution
-$db = new Database();
-$formManager = new FormManager($db);
-SessionManager::start();
-$current_user = SessionManager::getCurrentUser();
+$current_user = $userManager->getCurrentUser($_SESSION);
 $filter = FormFilter::getFilter();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {

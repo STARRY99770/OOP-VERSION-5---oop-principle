@@ -1,13 +1,14 @@
 <?php
+require_once '../classes/DatabaseConnection.php';
+require_once '../classes/UserManager.php';
+
 session_start();
 
-class SessionManager {
-    public static function getCurrentUser() {
-        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
-    }
-}
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
 
-$current_user = SessionManager::getCurrentUser();
+$current_user = $userManager->getCurrentUser($_SESSION);
 ?>
 
 <!DOCTYPE html>

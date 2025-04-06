@@ -1,83 +1,15 @@
 <?php
-session_start();
+require_once '../classes/DatabaseConnection.php';
+require_once '../classes/UserManager.php';
+require_once '../classes/RecordManager.php';
 
-class Database {
-    private $host = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $database = "foreign_workers";
-    public $connection;
-
-    public function __construct() {
-        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
-        if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
-        }
-    }
-
-    public function getConnection() {
-        return $this->connection;
-    }
-
-    public function closeConnection() {
-        $this->connection->close();
-    }
-}
-
-class SessionManager {
-    public static function getCurrentUser() {
-        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
-    }
-}
-
-class RecordManager {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function getAllRecords() {
-        $connection = $this->db->getConnection();
-        $sql = "SELECT * FROM registration";
-        return $connection->query($sql);
-    }
-
-    public function updateRecord($data) {
-        $connection = $this->db->getConnection();
-        $sql = "UPDATE registration SET 
-            phone_number = ?, 
-            company_name = ?, 
-            company_address = ?, 
-            employer_name = ?, 
-            employer_phone = ?, 
-            office_phone = ?, 
-            email = ?
-            WHERE medical_id = ?";
-
-        $stmt = $connection->prepare($sql);
-        $stmt->bind_param(
-            "ssssssss",
-            $data['phone_number'],
-            $data['company_name'],
-            $data['company_address'],
-            $data['employer_name'],
-            $data['employer_phone'],
-            $data['office_phone'],
-            $data['email'],
-            $data['medical_id']
-        );
-
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
-    }
-}
-
-// Main Execution
-$db = new Database();
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+$conn = $db->getConnection();
+$userManager = new UserManager($conn);
 $recordManager = new RecordManager($db);
-$current_user = SessionManager::getCurrentUser();
+
+session_start();
+$current_user = $userManager->getCurrentUser($_SESSION);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["medical_id"])) {
     $data = array_map('htmlspecialchars', $_POST);
@@ -98,6 +30,7 @@ $records = $recordManager->getAllRecords();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Check Foreign Workers' Information</title>
   <link rel="stylesheet" href="/pageIM/view_records-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
