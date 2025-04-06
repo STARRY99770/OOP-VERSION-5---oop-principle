@@ -1,5 +1,5 @@
 <?php
-class DatabaseConfig {
+class Database {
     protected $servername, $username, $password, $database;
 
     public function __construct($servername, $username, $password, $database) {
@@ -14,7 +14,7 @@ class DatabaseConfig {
     }
 }
 
-abstract class User {
+class User {
     protected $medicalID, $fullName, $dob, $gender, $nationality, $passportNumber, $phoneNumber;
 
     public function __construct($data) {
@@ -27,7 +27,26 @@ abstract class User {
         $this->phoneNumber = $data['phoneNumber'] ?? '';
     }
 
-    abstract public function validate();
+    public function validate() {
+        $errors = [];
+        if (empty($this->fullName)) $errors[] = "Full name is required";
+        if (empty($this->dob)) $errors[] = "Date of birth is required";
+        if (empty($this->gender)) $errors[] = "Gender is required";
+        if (empty($this->nationality)) $errors[] = "Nationality is required";
+        if (empty($this->passportNumber)) $errors[] = "Passport number is required";
+        if (empty($this->phoneNumber)) $errors[] = "Phone number is required";
+
+        return $errors;
+    }
+
+    // Getters...
+    public function getMedicalID() { return $this->medicalID; }
+    public function getFullName() { return $this->fullName; }
+    public function getDob() { return $this->dob; }
+    public function getGender() { return $this->gender; }
+    public function getNationality() { return $this->nationality; }
+    public function getPassportNumber() { return $this->passportNumber; }
+    public function getPhoneNumber() { return $this->phoneNumber; }
 }
 
 class ForeignWorker extends User {
@@ -46,13 +65,7 @@ class ForeignWorker extends User {
     }
 
     public function validate() {
-        $errors = [];
-        if (empty($this->fullName)) $errors[] = "Full name is required";
-        if (empty($this->dob)) $errors[] = "Date of birth is required";
-        if (empty($this->gender)) $errors[] = "Gender is required";
-        if (empty($this->nationality)) $errors[] = "Nationality is required";
-        if (empty($this->passportNumber)) $errors[] = "Passport number is required";
-        if (empty($this->phoneNumber)) $errors[] = "Phone number is required";
+        $errors = parent::validate();  // Validate common fields from the User class
         if (empty($this->companyName)) $errors[] = "Company name is required";
         if (empty($this->companyAddress)) $errors[] = "Company address is required";
         if (empty($this->employerName)) $errors[] = "Employer name is required";
@@ -65,13 +78,6 @@ class ForeignWorker extends User {
     }
 
     // Getters...
-    public function getMedicalID() { return $this->medicalID; }
-    public function getFullName() { return $this->fullName; }
-    public function getDob() { return $this->dob; }
-    public function getGender() { return $this->gender; }
-    public function getNationality() { return $this->nationality; }
-    public function getPassportNumber() { return $this->passportNumber; }
-    public function getPhoneNumber() { return $this->phoneNumber; }
     public function getCompanyName() { return $this->companyName; }
     public function getCompanyAddress() { return $this->companyAddress; }
     public function getEmployerName() { return $this->employerName; }
@@ -123,7 +129,7 @@ class DatabaseOperations {
 }
 
 try {
-    $dbConfig = new DatabaseConfig("localhost", "root", "", "foreign_workers");
+    $dbConfig = new Database("localhost", "root", "", "foreign_workers");
     $conn = $dbConfig->getConnection();
 
     if ($conn->connect_error) throw new Exception("Connection failed: " . $conn->connect_error);
@@ -152,8 +158,6 @@ try {
     echo "<script>alert('Error: " . addslashes($e->getMessage()) . "'); window.location.href = 'signup.php';</script>";
 }
 ?>
-
-
 
 <!-- Signup HTML Form (same as before) -->
 <!DOCTYPE html>
@@ -195,8 +199,8 @@ try {
                         <label for="gender">Gender</label>
                         <select id="gender" name="gender" class="gender-input" required>
                             <option value="">-- Select Gender --</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -209,10 +213,13 @@ try {
                     </div>
                     <div class="input-group">
                         <label for="phoneNumber">Phone Number</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                        <input type="text" id="phoneNumber" name="phoneNumber" required>
                     </div>
+
+                    <h3>Employer Information</h3>
+
                     <div class="input-group">
-                        <label for="companyName">Current Working Company Name</label>
+                        <label for="companyName">Company Name</label>
                         <input type="text" id="companyName" name="companyName" required>
                     </div>
                     <div class="input-group">
@@ -225,11 +232,11 @@ try {
                     </div>
                     <div class="input-group">
                         <label for="employerPhone">Employer Phone</label>
-                        <input type="tel" id="employerPhone" name="employerPhone" required>
+                        <input type="text" id="employerPhone" name="employerPhone" required>
                     </div>
                     <div class="input-group">
                         <label for="officePhone">Office Phone</label>
-                        <input type="tel" id="officePhone" name="officePhone" required>
+                        <input type="text" id="officePhone" name="officePhone" required>
                     </div>
                     <div class="input-group">
                         <label for="email">Email</label>
@@ -247,23 +254,12 @@ try {
                         <label for="confirmPassword">Confirm Password</label>
                         <input type="password" id="confirmPassword" name="confirmPassword" required>
                     </div>
-                    <button type="submit" class="sign-up-btn">Sign Up</button>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">Sign Up</button>
+                    </div>
                 </div>
             </form>
-            <p class="sign-up-text">Already have an account? <a href="/views/login.php">Sign in here</a></p>
         </div>
     </main>
-
-    <script>
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            if (password !== confirmPassword) {
-                event.preventDefault();
-                alert('Passwords do not match.');
-            }
-        });
-    </script>
 </body>
 </html>
-
