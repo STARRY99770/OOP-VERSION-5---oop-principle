@@ -255,7 +255,7 @@ try {
                         <input type="password" id="confirmPassword" name="confirmPassword" required>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="submit-button">Sign Up</button>
+                        <button type="submit" class="sign-up-btn">Sign Up</button>
                     </div>
                 </div>
             </form>
