@@ -1,10 +1,10 @@
 <?php
-require_once '../classes/Database.php';
+require_once '../classes/DatabaseConnection.php';
 require_once '../classes/UserManager.php';
 
 session_start();
 
-$db = new Database("localhost", "root", "", "foreign_workers");
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 
