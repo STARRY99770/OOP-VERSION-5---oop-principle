@@ -4,7 +4,7 @@ require_once '../classes/UserManager.php';
 
 session_start();
 
-$db = new Database();
+$db = new Database("localhost", "root", "", "foreign_workers");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 

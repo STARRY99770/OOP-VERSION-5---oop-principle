@@ -1,6 +1,13 @@
 <?php
 class FormFilter {
     public static function getFilter() {
-        return isset($_GET['filter']) ? $_GET['filter'] : '';
+        try {
+            if (!isset($_GET['filter'])) {
+                throw new Exception("Filter parameter is missing.");
+            }
+            return $_GET['filter'];
+        } catch (Exception $e) {
+            return ""; // Default to empty filter if an exception occurs
+        }
     }
 }
