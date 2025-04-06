@@ -1,11 +1,7 @@
 <?php
-session_start();
+require_once '../classes/SessionManager.php';
 
-class SessionManager {
-    public static function getCurrentUser() {
-        return isset($_SESSION['admin_id']) ? htmlspecialchars($_SESSION['admin_id']) : 'Guest';
-    }
-}
+session_start();
 
 $current_user = SessionManager::getCurrentUser();
 ?>
