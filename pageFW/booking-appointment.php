@@ -1,81 +1,145 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: /views/login.php");
-    exit();
-}
-$user_id = $_SESSION['user_id'];
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "foreign_workers";
+//// ------------------------------
+// CLASS: Database Connection (Encapsulation + Object Creation)
+//// ------------------------------
+class Database {
+    private $host = "localhost";
+    private $user = "root";
+    private $pass = "";
+    private $dbname = "foreign_workers";
+    public $conn;
 
-$conn = new mysqli($servername, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// 删除预约
-if (isset($_GET['delete'])) {
-    $delete_id = intval($_GET['delete']);
-    $stmt = $conn->prepare("DELETE FROM appointments WHERE appointment_id = ? AND user_id = ?");
-    $stmt->bind_param("is", $delete_id, $user_id);
-    $stmt->execute();
-    $stmt->close();
-    echo "<script>alert('Appointment deleted successfully.'); window.location.href='booking-appointment.php';</script>";
-    exit();
-}
-
-// 提交预约
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $appointmentDate = $_POST['appointmentDate'];
-    $appointmentTime = $_POST['appointmentTime'];
-    $appointmentPlace = $_POST['appointmentPlace'];
-
-    // 1. 检查是否当天已有预约
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM appointments WHERE user_id = ? AND appointment_date = ?");
-    $stmt->bind_param("ss", $user_id, $appointmentDate);
-    $stmt->execute();
-    $stmt->bind_result($existing_appointments);
-    $stmt->fetch();
-    $stmt->close();
-
-    if ($existing_appointments > 0) {
-        echo "<script>alert('You have already booked an appointment on this date.');</script>";
-    } else {
-        // 2. 检查时间是否冲突
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM appointments WHERE appointment_date = ? AND appointment_time = ? AND appointment_place = ?");
-        $stmt->bind_param("sss", $appointmentDate, $appointmentTime, $appointmentPlace);
-        $stmt->execute();
-        $stmt->bind_result($time_conflict);
-        $stmt->fetch();
-        $stmt->close();
-
-        if ($time_conflict > 0) {
-            echo "<script>alert('This time slot has already been booked at the selected clinic. Please choose another.');</script>";
-        } else {
-            // 插入预约记录，状态为 Pending
-            $status = 'Pending';
-            $stmt = $conn->prepare("INSERT INTO appointments (appointment_date, appointment_time, appointment_place, user_id, status) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentPlace, $user_id, $status);
-            if ($stmt->execute()) {
-                echo "<script>alert('Appointment booked successfully!'); window.location.href='booking-appointment.php';</script>";
-            } else {
-                echo "<script>alert('Error booking appointment.');</script>";
-            }
-            $stmt->close();
+    public function __construct() { // ✅ Object creation
+        $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbname);
+        if ($this->conn->connect_error) {
+            // ✅ Exception Handling
+            throw new Exception("Database connection failed: " . $this->conn->connect_error);
         }
     }
 }
 
-// 获取当前用户的预约记录
-$stmt = $conn->prepare("SELECT * FROM appointments WHERE user_id = ? ORDER BY appointment_date ASC");
-$stmt->bind_param("s", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+//// ------------------------------
+// CLASS: Appointment Object (Object Creation)
+//// ------------------------------
+class Appointment { // ✅ Object to hold appointment data
+    public $id, $date, $time, $place, $status;
+
+    public function __construct($id, $date, $time, $place, $status) {
+        $this->id = $id;
+        $this->date = $date;
+        $this->time = $time;
+        $this->place = $place;
+        $this->status = $status;
+    }
+}
+
+//// ------------------------------
+// CLASS: Appointment Manager (Encapsulation + Object Handling)
+//// ------------------------------
+class AppointmentManager { // ✅ Class for logic encapsulation
+    private $conn;
+    private $user_id;
+
+    public function __construct($user_id) {
+        $db = new Database(); // ✅ Object Composition
+        $this->conn = $db->conn;
+        $this->user_id = $user_id;
+    }
+
+    public function bookAppointment($date, $time, $place) {
+        // ✅ Encapsulated logic with Exception Handling
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM appointments WHERE user_id = ? AND appointment_date = ?");
+        $stmt->bind_param("ss", $this->user_id, $date);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($count > 0) {
+            throw new Exception("You already booked an appointment on this date.");
+        }
+
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM appointments WHERE appointment_date = ? AND appointment_time = ? AND appointment_place = ?");
+        $stmt->bind_param("sss", $date, $time, $place);
+        $stmt->execute();
+        $stmt->bind_result($conflict);
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($conflict > 0) {
+            throw new Exception("Time slot already booked at selected place.");
+        }
+
+        $status = 'Pending';
+        $stmt = $this->conn->prepare("INSERT INTO appointments (appointment_date, appointment_time, appointment_place, user_id, status) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $date, $time, $place, $this->user_id, $status);
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to book appointment.");
+        }
+        $stmt->close();
+    }
+
+    public function deleteAppointment($id) {
+        $stmt = $this->conn->prepare("DELETE FROM appointments WHERE appointment_id = ? AND user_id = ?");
+        $stmt->bind_param("is", $id, $this->user_id);
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to delete appointment.");
+        }
+        $stmt->close();
+    }
+
+    public function getUserAppointments() {
+        $stmt = $this->conn->prepare("SELECT * FROM appointments WHERE user_id = ? ORDER BY appointment_date ASC");
+        $stmt->bind_param("s", $this->user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $appointments = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $appointments[] = new Appointment( // ✅ Object Creation
+                $row['appointment_id'],
+                $row['appointment_date'],
+                $row['appointment_time'],
+                $row['appointment_place'],
+                $row['status']
+            );
+        }
+
+        return $appointments;
+    }
+}
+
+//// ------------------------------
+// PROCESSING LOGIC
+//// ------------------------------
+$appointments = [];
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $manager = new AppointmentManager($user_id); // ✅ Object Instantiation
+
+    try {
+        if (isset($_POST['submit'])) {
+            $manager->bookAppointment($_POST['date'], $_POST['time'], $_POST['place']);
+            echo "<script>alert('Appointment booked successfully.');</script>";
+        }
+
+        if (isset($_GET['delete'])) {
+            $manager->deleteAppointment($_GET['delete']);
+            echo "<script>alert('Appointment deleted successfully.');</script>";
+        }
+
+        $appointments = $manager->getUserAppointments();
+    } catch (Exception $e) {
+        echo "<script>alert('" . $e->getMessage() . "');</script>"; // ✅ Exception Handling Output
+    }
+} else {
+    echo "<script>alert('User not logged in.');</script>";
+}
 ?>
 
+<!-- ✅ HTML Section Starts Here (Unchanged) -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
