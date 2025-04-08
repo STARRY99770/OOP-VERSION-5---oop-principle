@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <button type="submit" class="sign-in-btn">Reset Password</button>
             </form>
-            <p class="sign-up-text">Remember your password? <a href="/views/login.php">Sign in here</a></p>
+            <p class="sign-up-text">Remember your password? <a href="/views/lo">Sign in here</a></p>
         </div>
     </main>
 </body>
