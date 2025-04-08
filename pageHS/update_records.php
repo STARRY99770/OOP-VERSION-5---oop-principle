@@ -1,50 +1,43 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "foreign_workers";
+require_once __DIR__ . '/../classes/DatabaseConnection.php';
+require_once __DIR__ . '/../classes/UserManager.php';
+require_once __DIR__ . '/../classes/FormManager.php';
 
-$conn = new mysqli($servername, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$message_script = '';
 
-// 获取当前登录用户的用户名
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $admin_id = $_SESSION['admin_id'];
-    $stmt = $conn->prepare("SELECT admin_id FROM login_h_i_staff WHERE admin_id = ?");
-    $stmt->bind_param("s", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $current_user = htmlspecialchars($row['admin_id']);
+try {
+    // 初始化数据库连接
+    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $conn = $db->getConnection();
+
+    // 获取当前用户
+    $userManager = new UserManager($conn);
+    $current_user = $userManager->getCurrentUser($_SESSION);
+
+    // 处理表单逻辑
+    $formManager = new FormManager($conn);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+        $form_id = $_POST['form_id'];
+        $new_status = $_POST['health_status'];
+        $new_comment = $_POST['comment'];
+
+        if ($formManager->updateForm($form_id, $new_status, $new_comment)) {
+            $message_script = "<script>alert('Form updated successfully.');</script>";
+        }
     }
-    $stmt->close();
+
+    // 获取表单数据
+    $forms = $formManager->getForms();
+
+} catch (Exception $e) {
+    $message_script = "<script>alert('Error: " . $e->getMessage() . "');</script>";
+} finally {
+    if (isset($db)) {
+        $db->closeConnection();
+    }
 }
-
-// Handle update form
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $form_id = $_POST['form_id'];
-    $new_status = $_POST['health_status'];
-    $new_comment = $_POST['comment'];
-
-    $sql = "UPDATE forms SET health_status = ?, comment = ? WHERE form_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $new_status, $new_comment, $form_id);
-    $stmt->execute();
-    $stmt->close();
-
-    echo "<script>alert('Form updated successfully.');</script>";
-}
-
-// Fetch workers and their forms (with form_id)
-$sql = "SELECT r.user_id, r.medical_id, r.full_name, r.email, f.form_id, f.form_file, f.health_status, f.comment
-        FROM registration r
-        JOIN forms f ON r.user_id = f.user_id";
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -55,8 +48,10 @@ $result = $conn->query($sql);
   <title>Update Medical Information</title>
   <link rel="stylesheet" href="/pageHS/update-style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 </head>
 <body id="update-page">
+  <?= $message_script ?>
   <header>
     <h1>Update Foreign Worker's Medical Information</h1>
     <div class="user-icon-container">
@@ -82,8 +77,8 @@ $result = $conn->query($sql);
         </tr>
       </thead>
       <tbody>
-        <?php if ($result->num_rows > 0): $count = 1; ?>
-          <?php while ($row = $result->fetch_assoc()): ?>
+        <?php if ($forms->num_rows > 0): $count = 1; ?>
+          <?php while ($row = $forms->fetch_assoc()): ?>
             <tr>
               <form method="post">
                 <td><?= $count++ ?></td>
@@ -91,12 +86,8 @@ $result = $conn->query($sql);
                 <td><?= htmlspecialchars($row['full_name']) ?></td>
                 <td><?= htmlspecialchars($row['email']) ?></td>
                 <td>
-                  <?php 
-                  // Check if the form_file (BLOB) is not null
-                  if (!empty($row['form_file'])):
-                    $form_id = $row['form_id'];
-                  ?>
-                    <a href="view_file.php?form_id=<?= htmlspecialchars($form_id) ?>" target="_blank">View</a>
+                  <?php if (!empty($row['form_file'])): ?>
+                    <a href="view-pdf.php?form_id=<?= htmlspecialchars($row['form_id']) ?>" class="btn-view">View</a>
                   <?php else: ?>
                     No file
                   <?php endif; ?>
@@ -109,7 +100,7 @@ $result = $conn->query($sql);
                   </select>
                 </td>
                 <td>
-                  <textarea name="comment" placeholder="Enter comments..."> <?= htmlspecialchars($row['comment']) ?> </textarea>
+                  <textarea name="comment" placeholder="Enter comments..."><?= htmlspecialchars($row['comment']) ?></textarea>
                 </td>
                 <td>
                   <input type="hidden" name="form_id" value="<?= $row['form_id'] ?>">
@@ -124,7 +115,17 @@ $result = $conn->query($sql);
       </tbody>
     </table>
   </div>
-  
+
+  <div id="pdf-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">PDF Viewer</div>
+      <iframe id="pdf-viewer-modal"></iframe>
+      <div class="modal-footer">
+        <button class="close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
   <div class="back-to-main">
     <a href="/pageHS/admin_hs_page.php" class="btn-back">Back to Main Page</a>
   </div>
@@ -153,8 +154,93 @@ $result = $conn->query($sql);
       });
       selectElement.dispatchEvent(new Event('change'));
     });
+
+    // Close the modal when the close button is clicked
+    document.querySelector('.close-btn').addEventListener('click', function() {
+      const modal = document.getElementById('pdf-modal');
+      modal.style.display = 'none';
+    });
+
+    // Close the modal when clicking outside the modal content
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('pdf-modal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('.view-pdf-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const formId = this.getAttribute('data-form-id');
+        const pdfUrl = `view-pdf.php?form_id=${formId}`;
+
+        const container = document.getElementById('pdf-container');
+        container.innerHTML = ''; // Clear previous content
+
+        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        loadingTask.promise.then(function(pdf) {
+          pdf.getPage(1).then(function(page) {
+            const viewport = page.getViewport({ scale: 1.5 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            container.appendChild(canvas);
+
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            page.render(renderContext);
+          });
+        }).catch(function(error) {
+          console.error('Error loading PDF:', error);
+        });
+      });
+    });
+
+    document.querySelectorAll('.btn-view').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        const formId = this.getAttribute('href').split('form_id=')[1]; // Extract form_id from the URL
+        const iframe = document.getElementById('pdf-viewer');
+        iframe.src = `view-pdf.php?form_id=${formId}`; // Set the iframe source to the PDF URL
+      });
+    });
+
+    // 为每个 "View" 按钮添加点击事件
+    document.querySelectorAll('.btn-view').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault(); // 阻止默认行为（跳转）
+
+        const formId = this.getAttribute('href').split('form_id=')[1]; // 获取 form_id
+        const iframe = document.getElementById('pdf-viewer-modal');
+        iframe.src = `view-pdf.php?form_id=${formId}`; // 设置 iframe 的 src
+
+        // 显示模态框
+        const modal = document.getElementById('pdf-modal');
+        modal.style.display = 'block';
+      });
+    });
+
+    // 关闭模态框
+    document.querySelector('.close-btn').addEventListener('click', function() {
+      const modal = document.getElementById('pdf-modal');
+      modal.style.display = 'none';
+      const iframe = document.getElementById('pdf-viewer-modal');
+      iframe.src = ''; // 清空 iframe 的 src
+    });
+
+    // 点击模态框外部关闭模态框
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('pdf-modal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+        const iframe = document.getElementById('pdf-viewer-modal');
+        iframe.src = ''; // 清空 iframe 的 src
+      }
+    });
   </script>
 </body>
 </html>
-
-<?php $conn->close(); ?>

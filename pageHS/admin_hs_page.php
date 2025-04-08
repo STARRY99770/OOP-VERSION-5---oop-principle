@@ -1,28 +1,25 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "foreign_workers";
+require_once __DIR__ . '/../classes/DatabaseConnection.php';
+require_once __DIR__ . '/../classes/UserManager.php';
 
-$conn = new mysqli($servername, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+try {
+    // Initialize database connection
+    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $conn = $db->getConnection();
 
-// 获取当前登录用户的用户名
-$current_user = 'Guest';
-if (isset($_SESSION['admin_id'])) {
-    $admin_id = $_SESSION['admin_id'];
-    $stmt = $conn->prepare("SELECT admin_id FROM login_h_i_staff WHERE admin_id = ?");
-    $stmt->bind_param("s", $admin_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $current_user = htmlspecialchars($row['admin_id']);
-    }
-    $stmt->close();
+    // Get the current user
+    $userManager = new UserManager($conn);
+    $current_user = $userManager->getCurrentUser($_SESSION);
+
+    // Close database connection
+    $db->closeConnection();
+} catch (mysqli_sql_exception $e) {
+    // Handle database-specific errors
+    die("A database error occurred: " . $e->getMessage());
+} catch (Exception $e) {
+    // Handle general exceptions
+    die("An error occurred: " . $e->getMessage());
 }
 ?>
 
