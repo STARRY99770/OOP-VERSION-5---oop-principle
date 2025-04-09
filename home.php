@@ -30,7 +30,7 @@
         <a href="/views/admin.php"><button>Immigration Staff Login</button></a>
         <a href="/views/login.php"><button>Booking Appointment</button></a>
         <a href="/views/login.php"><button>Check Records</button></a>
-        <a href="news/news.html"><button>News</button></a>
+        <a href="/news.php"><button>News</button></a>
     </aside>
     <div class="overlay" id="overlay"></div>
     

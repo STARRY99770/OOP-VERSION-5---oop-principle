@@ -130,6 +130,25 @@ button {
     text-align: center;
 }
 
+/* View Button Styling */
+.btn-view {
+    background-color: orange; /* 橙色背景 */
+    color: white; /* 白色字体 */
+    padding: 8px 16px; /* 按钮内边距 */
+    border: none; /* 去掉边框 */
+    border-radius: 5px; /* 圆角 */
+    text-decoration: none; /* 去掉下划线 */
+    font-size: 14px; /* 字体大小 */
+    font-weight: bold; /* 加粗字体 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 添加过渡效果 */
+}
+
+.btn-view:hover {
+    background-color: #e69500; /* 悬停时更深的橙色 */
+    transform: translateY(-2px); /* 悬停时轻微上移 */
+}
+
 /* Footer Styling */
 footer {
     background-color: #0d47a1;
@@ -157,27 +176,95 @@ select {
 
 /* Custom Modal Styles */
 .modal {
-    display: none;
+    display: none; /* 隐藏模态框 */
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* 更深的半透明背景 */
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 15% auto;
+    margin: 5% auto; /* 居中 */
     padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    border-radius: 10px; /* 圆角 */
+    width: 70%; /* 宽度为页面的 70% */
+    max-width: 900px; /* 最大宽度 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 更明显的阴影 */
+    animation: fadeIn 0.3s ease-in-out; /* 添加淡入动画 */
+    display: flex;
+    flex-direction: column; /* 垂直布局 */
+    align-items: center; /* 居中对齐内容 */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.close-btn {
+    color: #333;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #e74c3c; /* 红色悬停效果 */
+    text-decoration: none;
+}
+
+#pdf-viewer-modal {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+}
+
+/* 提示信息样式 */
+.modal-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
     text-align: center;
 }
 
-.close-button {
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer button:hover {
+    background-color: #0056b3;
+}
+
+close-button {
     color: #aaa;
     float: right;
     font-size: 24px;
@@ -185,7 +272,7 @@ select {
     cursor: pointer;
 }
 
-.close-button:hover {
+close-button:hover {
     color: #000;
 }
 
@@ -266,3 +353,5 @@ select {
 .user-icon-container:hover .tooltip {
     display: block;
 }
+
+
