@@ -16,9 +16,9 @@
             <h1>Sarawak E-health Management System</h1>
         </div>
         <div class="top-right-container">
-            <button onclick="navigateTo('home')">Home</button>
-            <button onclick="navigateTo('about')">About Us</button>
-            <button onclick="navigateTo('contact')">Contact</button>
+            <a href="/home.php"><button>Home</button></a>
+            <a href="/home.php"><button>About Us</button></a>
+            <a href="/home.php"><button>Contact</button></a>
             <a href="/views/login.php"><button class="login-btn">Login</button></a>
         </div>
     </header>
