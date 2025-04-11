@@ -24,7 +24,6 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: brightness(0.8); /* Reduce brightness */
   position: relative;
   z-index: 0; /* Ensure content is above the overlay */
 }
