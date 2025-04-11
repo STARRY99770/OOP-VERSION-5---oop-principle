@@ -123,13 +123,13 @@ footer {
   
 .logout-btn {
     padding: 8px 19px; /* Adjust padding for a smaller button */
-    background-color: #f8350e; /* Matches the orange color in the screenshot */
+    background-color: #f8350e; 
     color:  white;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
     font-size: 14px;
-    border: 2px solid #f8350e; /* Adds a border similar to the buttons in the screenshot */
+    border: 2px solid #f8350e; 
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */

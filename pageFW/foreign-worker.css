@@ -32,7 +32,11 @@ body::before {
 
 .profile-wrapper {
     position: relative;
-    margin-right: 10px; /* Add margin to the right */
+    margin-right: 0; /* 确保 user-icon 紧贴 bell button */
+    display: flex;
+    align-items: center;
+    margin: 0; /* 移除多余的外边距 */
+    padding: 0 10px; /* 调整内边距 */
 }
 
 .profile-icon {
@@ -86,8 +90,9 @@ body::before {
 .right-section {
     display: flex;
     align-items: center;
-    gap: 10px; /* Adjusted spacing */
-    flex-direction: row-reverse; /* Reverse the order of elements */
+    justify-content: space-between; /* 在元素之间均匀分布 */
+    gap: 5px; /* 调整间距以保持平衡 */
+    padding-right: 5px; /* 添加一些右侧内边距 */
 }
 
 .header .logo img {
@@ -100,21 +105,30 @@ body::before {
     font-weight: bold;
     margin-left: 10px; /* Add margin to the left */
 }
-
 .header .logout-button button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #ff0000;
+    padding: 5px 15px; /* 调整内边距 */
+    font-size: 16px; /* 调整字体大小 */
+    background-color: #f8350e; /* 使用与 admin_hs_page.php 相同的颜色 */
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px; /* 圆角按钮 */
     cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加平滑过渡效果 */
+    font-style: bold;
+}
+.logout-btn {
+    background-color: #ff4d4d; /* 红色背景 */
+    color: white; /* 白色文字 */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-style: bold;
 }
 
-.header .logout-button button:hover {
-    background-color: #cc0000;
+.logout-btn:hover {
+    background-color: #e60000; /* 深红色背景 */
 }
-
 /* Container Styling */
 .container {
     margin: 30px auto; /* Center align */
@@ -129,22 +143,6 @@ body::before {
     flex-direction: column;
     align-items: center;
     margin-top: 150px;
-}
-
-/* Back to Main Page Button */
-.back-to-main button {
-    padding: 12px 24px; /* Slightly larger button */
-    font-size: 16px; /* Adjusted font size */
-    background-color: #FF6F00;
-    color: #fff;
-    border: none;
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer;
-    outline: none; /* Remove blue outline */
-}
-
-.back-to-main button:hover {
-    background-color: #E65100;
 }
 
 h1 {
@@ -233,4 +231,133 @@ button:hover {
     width: 100%;
     bottom: 0;
     font-size: 13px;
+}
+
+.top-right-container {
+    display: flex;
+    align-items: center;
+    gap: 0; /* 确保元素没有间距 */
+}
+
+/* 添加淡入动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Notification Wrapper */
+.notification-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff3b3b; /* 更鲜艳的红色 */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 7px;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 更柔和的阴影 */
+    width: 320px;
+    z-index: 1000;
+    overflow: hidden; /* 防止内容溢出 */
+    animation: fadeIn 0.3s ease-in-out; /* 添加淡入动画 */
+}
+
+.notification-dropdown p {
+    margin: 15px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-dropdown ul li {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 图标和文字之间的间距 */
+    transition: background-color 0.2s ease-in-out; /* 平滑的背景色过渡 */
+}
+
+.notification-dropdown ul li:last-child {
+    border-bottom: none;
+}
+
+.notification-dropdown ul li:hover {
+    background-color: #f5f5f5; /* 更浅的背景色 */
+    cursor: pointer;
+}
+
+.notification-dropdown ul li img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Empty State Styling */
+.notification-dropdown p {
+    font-size: 14px;
+    color: #999;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Add subtle hover effect for the dropdown */
+.notification-dropdown:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* 更明显的阴影 */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

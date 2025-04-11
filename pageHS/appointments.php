@@ -24,10 +24,18 @@ try {
         if (isset($_POST['update_status'])) {
             $new_status = $_POST['status'];
             $appointment_id = $_POST['appointment_id'];
+            $user_id = $_POST['user_id']; // 获取用户ID
+
+            // 更新预约状态
             if ($appointmentManager->updateAppointmentStatus($appointment_id, $new_status)) {
-                $message_script = "<script>alert('Status updated successfully.');</script>";
+                // 插入通知
+                $notification_message = "Your appointment has been updated to: " . ucfirst($new_status);
+                $stmt = $conn->prepare("INSERT INTO notifications (user_id, message) VALUES (?, ?)");
+                $stmt->execute([$user_id, $notification_message]);
+
+                echo "<script>alert('Status updated successfully and notification sent.');</script>";
             } else {
-                $message_script = "<script>alert('Invalid input.');</script>";
+                echo "<script>alert('Failed to update status.');</script>";
             }
         }
     }
@@ -113,6 +121,7 @@ try {
                         </td>
                         <td class="action-buttons">
                             <input type="hidden" name="appointment_id" value="<?= $row['appointment_id'] ?>">
+                            <input type="hidden" name="user_id" value="<?= $row['user_id'] ?>">
                             <button type="submit" name="update_status" class="update-btn">
                                 <i class="fa fa-check"></i> Update
                             </button>
