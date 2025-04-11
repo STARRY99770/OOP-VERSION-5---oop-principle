@@ -15,10 +15,10 @@ try {
 
 $user_id = $_SESSION['user_id']; // Get the logged-in user's ID
 
-// Fetch unread notifications for the logged-in user
+// Fetch all notifications for the logged-in user
 $notifications = [];
 try {
-    $stmt = $db->prepare("SELECT id, message FROM notifications WHERE user_id = :user_id AND is_read = 0 ORDER BY created_at DESC");
+    $stmt = $db->prepare("SELECT id, message, is_read FROM notifications WHERE user_id = :user_id ORDER BY created_at DESC");
     $stmt->execute(['user_id' => $user_id]);
     $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -83,17 +83,28 @@ try {
         <div class="notification-wrapper">
             <div class="notification-icon" onclick="toggleNotificationDropdown()" title="Notifications">
                 <img src="/images/notification-icon.png" alt="Notifications" />
-                <?php if (count($notifications) > 0): ?>
-                    <span class="notification-count"><?php echo count($notifications); ?></span>
+                <?php 
+                // 计算未读通知的数量
+                $unreadCount = 0;
+                foreach ($notifications as $notification) {
+                    if (!$notification['is_read']) {
+                        $unreadCount++;
+                    }
+                }
+                ?>
+                <?php if ($unreadCount > 0): ?>
+                    <span class="notification-count"><?php echo $unreadCount; ?></span>
                 <?php endif; ?>
             </div>
             <div class="notification-dropdown" id="notificationDropdown">
                 <?php if (empty($notifications)): ?>
-                    <p>No new notifications</p>
+                    <p>No notifications</p>
                 <?php else: ?>
                     <ul>
                         <?php foreach ($notifications as $notification): ?>
-                            <li><?php echo htmlspecialchars($notification['message']); ?></li>
+                            <li class="<?php echo $notification['is_read'] ? 'read' : 'unread'; ?>">
+                                <?php echo htmlspecialchars($notification['message']); ?>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
@@ -161,7 +172,7 @@ function markNotificationsAsRead() {
     // 立即移除通知计数
     const notificationCount = document.querySelector('.notification-count');
     if (notificationCount) {
-        notificationCount.remove();
+        notificationCount.remove(); // 移除红色数字
     }
 
     // 调用后端 API 标记为已读
@@ -182,6 +193,7 @@ function markNotificationsAsRead() {
       });
 }
 
+// 点击通知图标时调用 markNotificationsAsRead
 document.querySelector('.notification-icon').addEventListener('click', () => {
     markNotificationsAsRead();
 });

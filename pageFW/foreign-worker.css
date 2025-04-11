@@ -337,6 +337,15 @@ button:hover {
     object-fit: contain;
 }
 
+.notification-dropdown li.unread {
+    font-weight: bold;
+}
+
+.notification-dropdown li.read {
+    font-weight: normal;
+    color: gray;
+}
+
 /* Empty State Styling */
 .notification-dropdown p {
     font-size: 14px;
