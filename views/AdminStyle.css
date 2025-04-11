@@ -1,4 +1,15 @@
 /* 页面整体样式 */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray overlay */
+  z-index: 1; /* Place it above the background but below other content */
+}
+
 body {
   font-family: 'Roboto', Arial, sans-serif;
   background-color: #ffffff; /* 白色背景 */
@@ -9,6 +20,13 @@ body {
   align-items: center; /* 垂直居中 */
   height: 100vh; /* 占满视口高度 */
   box-sizing: border-box; /* 确保内边距和边框计算在内 */
+  background-image: url('/images/sarawakflag.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.8); /* Reduce brightness */
+  position: relative;
+  z-index: 0; /* Ensure content is above the overlay */
 }
 
 .page-header {
@@ -22,6 +40,12 @@ body {
   display: flex; /* Arrange logo and text horizontally */
   align-items: center; /* Align logo and text vertically */
   justify-content: center; /* Center content */
+}
+
+header.page-header {
+  width: 100%; /* Increase width to make it longer */
+  margin: 0 auto; /* Center the header */
+  box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
 .page-header .logo {
@@ -45,6 +69,8 @@ body {
   width: 300px;
   text-align: center;
   border: 1px solid #004a99; /* 蓝色边框 */
+  z-index: 2; /* Ensure login container is above the overlay */
+  position: relative; /* Establish stacking context */
 }
 
 .login-container h2 {
