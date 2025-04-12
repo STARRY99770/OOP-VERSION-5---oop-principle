@@ -42,5 +42,5 @@ class AppointmentManager extends BaseManager implements ManagerInterface {
             throw new Exception("Failed to update appointment status: " . $e->getMessage());
         }
     }
+
 }
-?>

@@ -25,5 +25,11 @@ class FormManager extends BaseManager {
             throw new Exception("Failed to update form: " . $e->getMessage());
         }
     }
+
+    public function addNotification($userId, $message) {
+        $stmt = $this->conn->prepare("INSERT INTO notifications (user_id, message) VALUES (?, ?)");
+        $stmt->bind_param("is", $userId, $message);
+        return $stmt->execute();
+    }
 }
 ?>

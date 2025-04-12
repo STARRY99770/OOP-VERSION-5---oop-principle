@@ -15,6 +15,16 @@ try {
 
 $user_id = $_SESSION['user_id']; // Get the logged-in user's ID
 
+// Count unread notifications for the logged-in user
+$unreadCount = 0;
+try {
+    $stmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = :user_id AND is_read = 0");
+    $stmt->execute(['user_id' => $user_id]);
+    $unreadCount = $stmt->fetchColumn();
+} catch (PDOException $e) {
+    die("Error counting unread notifications: " . $e->getMessage());
+}
+
 // Fetch all notifications for the logged-in user
 $notifications = [];
 try {
@@ -83,15 +93,6 @@ try {
         <div class="notification-wrapper">
             <div class="notification-icon" onclick="toggleNotificationDropdown()" title="Notifications">
                 <img src="/images/notification-icon.png" alt="Notifications" />
-                <?php 
-                // 计算未读通知的数量
-                $unreadCount = 0;
-                foreach ($notifications as $notification) {
-                    if (!$notification['is_read']) {
-                        $unreadCount++;
-                    }
-                }
-                ?>
                 <?php if ($unreadCount > 0): ?>
                     <span class="notification-count"><?php echo $unreadCount; ?></span>
                 <?php endif; ?>
@@ -136,6 +137,8 @@ try {
 </div>
 
 <script>
+    const unreadCount = <?php echo json_encode($unreadCount); ?>;
+
     function logout() {
         alert("You have logged out successfully!");
         window.location.href = "/home.php";
@@ -169,13 +172,13 @@ document.addEventListener('click', function (e) {
 });
 
 function markNotificationsAsRead() {
-    // 立即移除通知计数
+    // Immediately remove the notification count
     const notificationCount = document.querySelector('.notification-count');
     if (notificationCount) {
-        notificationCount.remove(); // 移除红色数字
+        notificationCount.remove();
     }
 
-    // 调用后端 API 标记为已读
+    // Call the backend API to mark notifications as read
     fetch('/mark-notifications-read.php', {
         method: 'POST',
         headers: {
@@ -193,7 +196,6 @@ function markNotificationsAsRead() {
       });
 }
 
-// 点击通知图标时调用 markNotificationsAsRead
 document.querySelector('.notification-icon').addEventListener('click', () => {
     markNotificationsAsRead();
 });
