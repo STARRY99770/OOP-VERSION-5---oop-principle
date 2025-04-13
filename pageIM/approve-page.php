@@ -94,10 +94,7 @@ $result = $formManager->getFilteredForms($filter);
                                         : '-') . "</td>
                                 <td>" . ($row['status_updated_date'] ?? '-') . "</td>
                                 <td>" . ($row['valid_until'] ?? '-') . "</td>
-                                <td>";
-
-                            if (!$permit_finalized) {
-                                echo "
+                                <td>
                                     <form method='POST' style='display:inline;'>
                                         <input type='hidden' name='form_id' value='{$form_id}'>
                                         <input type='hidden' name='status' value='Approved'>
@@ -112,12 +109,8 @@ $result = $formManager->getFilteredForms($filter);
                                         <input type='hidden' name='form_id' value='{$form_id}'>
                                         <input type='hidden' name='status' value='Pending'>
                                         <button class='pending-btn' type='submit'>Pending</button>
-                                    </form>";
-                            } else {
-                                echo "<span style='color: gray;'>Finalized</span>";
-                            }
-
-                            echo "</td>
+                                    </form>
+                                </td>
                             </tr>";
                             $count++;
                         }

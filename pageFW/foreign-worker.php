@@ -64,6 +64,29 @@ try {
     die("Error inserting notification: " . $e->getMessage());
 }
 
+// 获取当前用户 ID
+$current_user_id = $_SESSION['user_id'];
+
+// 查询未读通知
+$stmt = $db->prepare("SELECT id, message FROM notifications WHERE user_id = :user_id AND is_read = 0");
+$stmt->execute(['user_id' => $current_user_id]);
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (count($result) > 0) {
+    echo "<div class='notifications'>";
+    foreach ($result as $row) {
+        echo "<p>" . htmlspecialchars($row['message']) . "</p>";
+
+        // 标记通知为已读
+        $notification_id = $row['id'];
+        $update_stmt = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = :id");
+        $update_stmt->execute(['id' => $notification_id]);
+    }
+    echo "</div>";
+} else {
+    echo "<p>No new notifications.</p>";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
