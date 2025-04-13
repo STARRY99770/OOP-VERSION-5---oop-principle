@@ -96,30 +96,10 @@ class FormManagerHS extends FormManagerBase {
     }
 
     public function getFormDetails($form_id) {
-        $query = "SELECT * FROM forms WHERE form_id = ?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM forms WHERE form_id = ?");
         $stmt->bind_param("i", $form_id);
         $stmt->execute();
         $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc(); // 返回表单详情
-        } else {
-            throw new Exception("Form not found with ID: $form_id");
-        }
-    }
-
-    public function getUserIdByFormId($form_id) {
-        $query = "SELECT user_id FROM forms WHERE form_id = ?";
-        $stmt = $this->db->getConnection()->prepare($query);
-        $stmt->bind_param("i", $form_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($row = $result->fetch_assoc()) {
-            return $row['user_id'];
-        } else {
-            throw new Exception("User ID not found for form ID: {$form_id}");
-        }
+        return $result->fetch_assoc();
     }
 }

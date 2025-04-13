@@ -5,6 +5,8 @@ require_once __DIR__ . '/../classes/UserManager.php';
 require_once __DIR__ . '/../classes/BaseManager.php';
 require_once __DIR__ . '/../classes/ManagerInterface.php';
 require_once __DIR__ . '/../classes/AppointmentManager.php';
+require_once __DIR__ . '/../classes/notificationManager.php'; // 引入 NotificationManager
+
 $message_script = '';
 
 try {
@@ -16,8 +18,9 @@ try {
     $userManager = new UserManager($conn);
     $current_user = $userManager->getCurrentUser($_SESSION);
 
-    // 处理预约逻辑
+    // 初始化管理器
     $appointmentManager = new AppointmentManager($conn);
+    $notificationManager = new NotificationManager($conn); // 初始化 NotificationManager
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['update_status'])) {
@@ -27,10 +30,9 @@ try {
 
             // 更新预约状态
             if ($appointmentManager->updateAppointmentStatus($appointment_id, $new_status)) {
-                // 插入通知
+                // 使用 NotificationManager 插入通知
                 $notification_message = "Your appointment has been updated to: " . ucfirst($new_status);
-                $stmt = $conn->prepare("INSERT INTO notifications (user_id, message) VALUES (?, ?)");
-                $stmt->execute([$user_id, $notification_message]);
+                $notificationManager->addNotification($user_id, $notification_message);
 
                 echo "<script>alert('Status updated successfully and notification sent.');</script>";
             } else {
