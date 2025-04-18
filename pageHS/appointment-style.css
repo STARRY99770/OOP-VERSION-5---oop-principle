@@ -24,6 +24,15 @@ header h1 {
     font-size: 24px;
 }
 
+/* Title Styling */
+h1 {
+    color: #0056b3;
+    text-align: left;
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
 /* Main Container */
 .container {
     margin: 40px auto;
@@ -92,63 +101,6 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Submit Button */
-.btn-submit {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-submit:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-}
-
-/* Cancel Button */
-.btn-cancel {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-cancel:hover {
-    background-color: #c82333;
-    transform: translateY(-2px);
-}
-
-.generate-btn {
-    background-color: #28a745;
-    color: white;
-    margin-right: 10px;
-}
-
-.submit-btn {
-    background-color: #ffc107;
-    color: black;
-}
-
-.report-buttons {
-    margin-top: 20px;
-    text-align: center;
-}
-
-/* View Button Styling */
-.btn-view {
-    background-color: orange; /* 橙色背景 */
-    color: white; /* 白色字体 */
-    padding: 8px 16px; /* 按钮内边距 */
-    border: none; /* 去掉边框 */
-    border-radius: 5px; /* 圆角 */
-    text-decoration: none; /* 去掉下划线 */
-    font-size: 14px; /* 字体大小 */
-    font-weight: bold; /* 加粗字体 */
-    cursor: pointer; /* 鼠标悬停时显示手型 */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* 添加过渡效果 */
-}
-
-.btn-view:hover {
-    background-color: #e69500; /* 悬停时更深的橙色 */
-    transform: translateY(-2px); /* 悬停时轻微上移 */
-}
-
 /* Footer Styling */
 footer {
     background-color: #0d47a1;
@@ -211,30 +163,6 @@ select {
         transform: scale(1);
     }
 }
-
-.close-btn {
-    color: #333;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #e74c3c; /* 红色悬停效果 */
-    text-decoration: none;
-}
-
-#pdf-viewer-modal {
-    width: 100%;
-    height: 500px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影 */
-}
-
 /* 提示信息样式 */
 .modal-header {
     font-size: 20px;
@@ -264,57 +192,33 @@ select {
     background-color: #0056b3;
 }
 
-close-button {
-    color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-close-button:hover {
-    color: #000;
-}
-
 /* Modal Message */
 #modalMessage {
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-/* Modal OK Button */
-#modalOkBtn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#modalOkBtn:hover {
-    background-color: #0056b3;
-}
-
 .back-to-main {
     text-align: center;
-    margin: 20px 0 60px; /* 添加底部间距，避免被 footer 覆盖 */
+    margin: 20px 0 40px; /* 添加底部间距，避免被 footer 覆盖 */
 }
 
+/* Back Button Styling */
 .btn-back {
     display: inline-block;
-    padding: 10px 20px;
     background-color: #f8350e;
     color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
     text-decoration: none;
-    border-radius: 5px;
     font-size: 16px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
+    margin-top: 25px;
 }
 
 .btn-back:hover {
-    background-color: orange;
+    background-color: #d32f2f;
 }
 
 .user-icon-container {
@@ -352,4 +256,132 @@ close-button:hover {
 
 .user-icon-container:hover .tooltip {
     display: block;
+}
+
+/* Filter Section */
+.search-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.status-filter {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #004494;
+}
+
+/* Table adjustments */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-table th, .appointment-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.appointment-table th {
+    background-color: #0056b3;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.appointment-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.appointment-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Action Buttons */
+.action-buttons .update-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons .update-btn:hover {
+    background-color: #218838;
+}
+
+/* Notifications Popup */
+.notifications-popup {
+    position: absolute;
+    top: 60px; /* 调整弹窗的位置，使其在图标下方 */
+    right: 20px; /* 靠右对齐 */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px; /* 设置宽度 */
+    z-index: 1000; /* 确保弹窗在最上层 */
+    display: none; /* 默认隐藏 */
+}
+
+.notifications-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notifications-popup li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+}
+
+.notifications-popup li:last-child {
+    border-bottom: none;
+}
+
+.notifications-popup button {
+    margin-top: 10px;
+    background-color: #f8350e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.notifications-popup button:hover {
+    background-color: #d32f2f;
 }

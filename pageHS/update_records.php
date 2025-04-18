@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../classes/DatabaseConnection.php';
 require_once __DIR__ . '/../classes/UserManager.php';
 require_once __DIR__ . '/../classes/FormManager.php';
+require_once __DIR__ . '/../classes/NotificationManager.php'; // 确保引入 NotificationManager 类
 
 $message_script = '';
 
@@ -17,19 +18,32 @@ try {
 
     // 处理表单逻辑
     $formManager = new FormManager($conn);
+    $notificationManager = new NotificationManager($conn); // 初始化通知管理器
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $form_id = $_POST['form_id'];
         $new_status = $_POST['health_status'];
         $new_comment = $_POST['comment'];
+        $worker_id = $_POST['user_id']; // 假设表单数据中包含 user_id
 
         if ($formManager->updateForm($form_id, $new_status, $new_comment)) {
-            $message_script = "<script>alert('Form updated successfully.');</script>";
+            // 设置通知消息，添加换行符
+            $notification_message = "Your medical form has been ($new_status).\n\nComment: $new_comment.";
+
+            // 添加通知
+            $notificationManager->addNotification($worker_id, $notification_message);
+
+            // 确保换行符和特殊字符在 JavaScript 中正确显示
+            $escaped_message = addslashes($notification_message); // 转义特殊字符
+            $message_script = "<script>alert('" . str_replace("\n", "\\n", $escaped_message) . "');</script>";
         }
     }
 
     // 获取表单数据
     $forms = $formManager->getForms();
+    if (!$forms) {
+        throw new Exception("Failed to fetch forms data.");
+    }
 
 } catch (Exception $e) {
     $message_script = "<script>alert('Error: " . $e->getMessage() . "');</script>";
@@ -52,6 +66,9 @@ try {
 </head>
 <body id="update-page">
   <?= $message_script ?>
+  <script>
+    alert('Your medical form has been updated. Status: Passed.\nComment: Hi.');
+  </script>
   <header>
     <h1>Update Foreign Worker's Medical Information</h1>
     <div class="user-icon-container">
@@ -104,6 +121,7 @@ try {
                 </td>
                 <td>
                   <input type="hidden" name="form_id" value="<?= $row['form_id'] ?>">
+                  <input type="hidden" name="user_id" value="<?= htmlspecialchars($row['user_id']) ?>">
                   <button type="submit" name="update" class="btn-submit">Update</button>
                 </td>
               </form>

@@ -20,7 +20,6 @@
             <button onclick="navigateTo('about')">About Us</button>
             <button onclick="navigateTo('contact')">Contact</button>
             <a href="/views/login.php"><button class="login-btn">Login</button></a>
-            <button class="notification">🔔</button>
         </div>
     </header>
     

@@ -1,26 +1,56 @@
 <?php
-require_once '../classes/DatabaseConnection.php';
-require_once '../classes/UserManager.php';
-require_once '../classes/FormManagerHS.php';
-require_once '../classes/FormFilter.php';
-
 session_start();
+require_once __DIR__ . '/../classes/DatabaseConnection.php';
+require_once __DIR__ . '/../classes/UserManager.php';
+require_once __DIR__ . '/../classes/FormManagerHS.php';
+require_once __DIR__ . '/../classes/FormFilter.php';
+require_once __DIR__ . '/../classes/notificationManager.php'; // 引入 NotificationManager
 
-$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
-$conn = $db->getConnection();
-$userManager = new UserManager($conn);
-$formManager = new FormManagerHS($db);
+$message_script = '';
 
-$current_user = $userManager->getCurrentUser($_SESSION);
-$filter = FormFilter::getFilter();
+try {
+    // 初始化数据库连接
+    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $conn = $db->getConnection();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {
-    $formManager->updateFormStatus($_POST['form_id'], $_POST['status']);
-    echo "<script>alert('Form ID {$_POST['form_id']} updated successfully'); window.location.href='approve-page.php';</script>";
-    exit();
+    // 初始化管理器
+    $userManager = new UserManager($conn);
+    $formManager = new FormManagerHS($db);
+    $notificationManager = new NotificationManager($conn); // 初始化 NotificationManager
+
+    $current_user = $userManager->getCurrentUser($_SESSION);
+    $filter = FormFilter::getFilter();
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['form_id']) && isset($_POST['status'])) {
+        $form_id = $_POST['form_id'];
+        $status = $_POST['status'];
+
+        // 更新表单状态
+        $formManager->updateFormStatus($form_id, $status);
+
+        // 获取用户 ID 和状态消息
+        $form_details = $formManager->getFormDetails($form_id); // 假设此方法返回表单的详细信息
+        $user_id = $form_details['user_id'];
+        $notification_message = "Your work pass has been " . strtolower($status) . ".";
+
+        // 使用 NotificationManager 发送通知
+        $notificationManager->addNotification($user_id, $notification_message);
+
+        echo "<script>alert('Form ID {$form_id} updated successfully and notification sent.'); window.location.href='approve-page.php';</script>";
+        exit();
+    }
+
+    $result = $formManager->getFilteredForms($filter);
+
+} catch (Exception $e) {
+    // 捕获异常并显示错误消息
+    $message_script = "<script>alert('Error: " . $e->getMessage() . "');</script>";
+} finally {
+    // 确保数据库连接被关闭
+    if (isset($db)) {
+        $db->closeConnection();
+    }
 }
-
-$result = $formManager->getFilteredForms($filter);
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +63,8 @@ $result = $formManager->getFilteredForms($filter);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+<?= $message_script ?>
+
     <header>
         <h1>Approve Work Pass</h1>
         <div class="user-icon-container">
@@ -94,10 +126,7 @@ $result = $formManager->getFilteredForms($filter);
                                         : '-') . "</td>
                                 <td>" . ($row['status_updated_date'] ?? '-') . "</td>
                                 <td>" . ($row['valid_until'] ?? '-') . "</td>
-                                <td>";
-
-                            if (!$permit_finalized) {
-                                echo "
+                                <td>
                                     <form method='POST' style='display:inline;'>
                                         <input type='hidden' name='form_id' value='{$form_id}'>
                                         <input type='hidden' name='status' value='Approved'>
@@ -112,12 +141,8 @@ $result = $formManager->getFilteredForms($filter);
                                         <input type='hidden' name='form_id' value='{$form_id}'>
                                         <input type='hidden' name='status' value='Pending'>
                                         <button class='pending-btn' type='submit'>Pending</button>
-                                    </form>";
-                            } else {
-                                echo "<span style='color: gray;'>Finalized</span>";
-                            }
-
-                            echo "</td>
+                                    </form>
+                                </td>
                             </tr>";
                             $count++;
                         }
@@ -139,5 +164,3 @@ $result = $formManager->getFilteredForms($filter);
     </footer>
 </body>
 </html>
-
-<?php $db->closeConnection(); ?>

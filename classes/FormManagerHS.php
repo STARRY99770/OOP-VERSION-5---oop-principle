@@ -87,4 +87,19 @@ class FormManagerHS extends FormManagerBase {
             throw new Exception("Error fetching filtered forms: " . $e->getMessage());
         }
     }
+
+    public function sendNotification($userId, $message) {
+        $stmt = $this->db->prepare("INSERT INTO notifications (user_id, message, created_at) VALUES (?, ?, NOW())");
+        $stmt->bind_param("is", $userId, $message);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function getFormDetails($form_id) {
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM forms WHERE form_id = ?");
+        $stmt->bind_param("i", $form_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }
