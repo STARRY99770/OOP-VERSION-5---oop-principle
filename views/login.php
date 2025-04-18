@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <header>
         <div class="logo-title centered-title">
-            <button onclick="history.back()" class="back-button">Back</button>
+        <a href="/home.php" class="back-button">Back</a>
             <img src="/images/srw.png" alt="Logo" class="logo">
             <h1 class="title">Sarawak E-health Management System</h1>
         </div>
