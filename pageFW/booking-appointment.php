@@ -1,9 +1,6 @@
 <?php
 session_start();
 
-//// ------------------------------
-// CLASS: Database Connection (Encapsulation + Object Creation)
-//// ------------------------------
 class Database {
     private $host = "localhost";
     private $user = "root";
@@ -11,19 +8,15 @@ class Database {
     private $dbname = "foreign_workers";
     public $conn;
 
-    public function __construct() { // ✅ Object creation
+    public function __construct() {
         $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbname);
         if ($this->conn->connect_error) {
-            // ✅ Exception Handling
             throw new Exception("Database connection failed: " . $this->conn->connect_error);
         }
     }
 }
 
-//// ------------------------------
-// CLASS: Appointment Object (Object Creation)
-//// ------------------------------
-class Appointment { // ✅ Object to hold appointment data
+class Appointment {
     public $id, $date, $time, $place, $status;
 
     public function __construct($id, $date, $time, $place, $status) {
@@ -35,21 +28,17 @@ class Appointment { // ✅ Object to hold appointment data
     }
 }
 
-//// ------------------------------
-// CLASS: Appointment Manager (Encapsulation + Object Handling)
-//// ------------------------------
-class AppointmentManager { // ✅ Class for logic encapsulation
+class AppointmentManager {
     private $conn;
     private $user_id;
 
     public function __construct($user_id) {
-        $db = new Database(); // ✅ Object Composition
+        $db = new Database();
         $this->conn = $db->conn;
         $this->user_id = $user_id;
     }
 
     public function bookAppointment($date, $time, $place) {
-        // ✅ Encapsulated logic with Exception Handling
         $stmt = $this->conn->prepare("SELECT COUNT(*) FROM appointments WHERE user_id = ? AND appointment_date = ?");
         $stmt->bind_param("ss", $this->user_id, $date);
         $stmt->execute();
@@ -98,7 +87,7 @@ class AppointmentManager { // ✅ Class for logic encapsulation
         $appointments = [];
 
         while ($row = $result->fetch_assoc()) {
-            $appointments[] = new Appointment( // ✅ Object Creation
+            $appointments[] = new Appointment(
                 $row['appointment_id'],
                 $row['appointment_date'],
                 $row['appointment_time'],
@@ -111,35 +100,32 @@ class AppointmentManager { // ✅ Class for logic encapsulation
     }
 }
 
-//// ------------------------------
-// PROCESSING LOGIC
-//// ------------------------------
 $appointments = [];
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    $manager = new AppointmentManager($user_id); // ✅ Object Instantiation
+    $manager = new AppointmentManager($user_id);
 
     try {
         if (isset($_POST['submit'])) {
             $manager->bookAppointment($_POST['date'], $_POST['time'], $_POST['place']);
-            echo "<script>alert('Appointment booked successfully.');</script>";
+            echo "<script>alert('Appointment booked successfully.'); window.location.href = window.location.href;</script>";
         }
 
         if (isset($_GET['delete'])) {
             $manager->deleteAppointment($_GET['delete']);
-            echo "<script>alert('Appointment deleted successfully.');</script>";
+            echo "<script>alert('Appointment deleted successfully.'); window.location.href = window.location.pathname;</script>";
         }
 
         $appointments = $manager->getUserAppointments();
     } catch (Exception $e) {
-        echo "<script>alert('" . $e->getMessage() . "');</script>"; // ✅ Exception Handling Output
+        echo "<script>alert('" . $e->getMessage() . "');</script>";
     }
 } else {
     echo "<script>alert('User not logged in.');</script>";
 }
 ?>
 
-<!-- ✅ HTML Section Starts Here (Unchanged) -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -159,7 +145,7 @@ if (isset($_SESSION['user_id'])) {
                     <img src="/images/profile-icon.png" alt="Profile" />
                 </div>
                 <div class="profile-dropdown" id="profileDropdown">
-                    <p>👤 Username: <span id="username"><?php echo htmlspecialchars($user_id); ?></span></p>
+                    <p>👤 Username: <span id="username"><?= htmlspecialchars($user_id); ?></span></p>
                 </div>
             </div>
         </div>
@@ -170,20 +156,20 @@ if (isset($_SESSION['user_id'])) {
 
         <form id="bookingForm" method="POST" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
             <label for="appointmentDate">Select Date:</label>
-            <input type="date" id="appointmentDate" name="appointmentDate" required>
+            <input type="date" id="appointmentDate" name="date" required>
 
             <label for="appointmentTime">Select Time:</label>
-            <input type="time" id="appointmentTime" name="appointmentTime" required>
+            <input type="time" id="appointmentTime" name="time" required>
 
             <label for="appointmentPlace">Select Place:</label>
-            <select id="appointmentPlace" name="appointmentPlace" required>
+            <select id="appointmentPlace" name="place" required>
                 <option value="" disabled selected>Select a place</option>
                 <option value="clinic1">Clinic 1</option>
                 <option value="clinic2">Clinic 2</option>
                 <option value="clinic3">Clinic 3</option>
             </select>
 
-            <button type="submit">Book Appointment</button>
+            <button type="submit" name="submit">Book Appointment</button>
         </form>
 
         <h2>Your Appointment Records</h2>
@@ -201,21 +187,21 @@ if (isset($_SESSION['user_id'])) {
             <tbody>
                 <?php 
                 $serial = 1;
-                while ($row = $result->fetch_assoc()): ?>
+                foreach ($appointments as $appointment): ?>
                     <tr>
                         <td><?= $serial++; ?></td>
-                        <td><?= $row['appointment_date']; ?></td>
-                        <td><?= date("g:i A", strtotime($row['appointment_time'])); ?></td>
-                        <td><?= $row['appointment_place']; ?></td>
-                        <td><?= htmlspecialchars($row['status']); ?></td>
+                        <td><?= htmlspecialchars($appointment->date); ?></td>
+                        <td><?= date("g:i A", strtotime($appointment->time)); ?></td>
+                        <td><?= htmlspecialchars($appointment->place); ?></td>
+                        <td><?= htmlspecialchars($appointment->status); ?></td>
                         <td>
-                            <a href="?delete=<?= $row['appointment_id']; ?>" onclick="return confirm('Are you sure you want to delete this appointment?')">Delete</a>
+                            <a href="?delete=<?= $appointment->id; ?>" onclick="return confirm('Are you sure you want to delete this appointment?')">Delete</a>
                         </td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
-    </div> <!-- End of container -->
+    </div>
 
     <div class="back-to-main">
         <button onclick="window.location.href='/pageFW/foreign-worker.php'">Back to Main Page</button>
