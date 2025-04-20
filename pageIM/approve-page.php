@@ -7,6 +7,7 @@ require_once __DIR__ . '/../classes/FormFilter.php';
 require_once __DIR__ . '/../classes/notificationManager.php'; // 引入 NotificationManager
 
 $message_script = '';
+$result = null;
 
 try {
     // 初始化数据库连接
@@ -35,8 +36,12 @@ try {
 
         // 使用 NotificationManager 发送通知
         $notificationManager->addNotification($user_id, $notification_message);
-
-        echo "<script>alert('Form ID {$form_id} updated successfully and notification sent.'); window.location.href='approve-page.php';</script>";
+        
+        echo "<script>
+            alert('Form ID {$form_id_safe} updated successfully and notification sent.');
+            window.location.href='approve-page.php';
+            </script>";
+    
         exit();
     }
 
@@ -107,7 +112,7 @@ try {
                 </thead>
                 <tbody>
                     <?php
-                    if ($result->num_rows > 0) {
+                        if ($result && $result->num_rows > 0) {
                         $count = 1;
                         while ($row = $result->fetch_assoc()) {
                             $form_id = $row['form_id'];
@@ -147,7 +152,7 @@ try {
                             $count++;
                         }
                     } else {
-                        echo "<tr><td colspan='11'>No data found</td></tr>";
+                        echo "<tr><td colspan='11'><em>No records match this filter.</em></td></tr>";
                     }
                     ?>
                 </tbody>
