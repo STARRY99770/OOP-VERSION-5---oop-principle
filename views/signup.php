@@ -112,9 +112,9 @@ class DatabaseOperations {
 
     public function registerUser(ForeignWorker $user) {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO registration (medical_id, full_name, dob, nationality, passport_number, phone_number, company_name, company_address, employer_name, employer_phone, office_phone, email, user_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssssssssss",
-                $user->getMedicalID(), $user->getFullName(), $user->getDob(), $user->getNationality(),
+            $stmt = $this->conn->prepare("INSERT INTO registration (medical_id, full_name, dob, gender, nationality, passport_number, phone_number, company_name, company_address, employer_name, employer_phone, office_phone, email, user_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssssssssssss",
+                $user->getMedicalID(), $user->getFullName(), $user->getDob(), $user->getGender(), $user->getNationality(),
                 $user->getPassportNumber(), $user->getPhoneNumber(), $user->getCompanyName(),
                 $user->getCompanyAddress(), $user->getEmployerName(), $user->getEmployerPhone(),
                 $user->getOfficePhone(), $user->getEmail(), $user->getUserID(), $user->getPassword()
