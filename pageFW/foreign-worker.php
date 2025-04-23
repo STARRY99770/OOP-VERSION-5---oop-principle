@@ -72,6 +72,7 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Foreign Workers Services</title>
   <link rel="stylesheet" href="/pageFW/foreign-worker.css" />
+  <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
 <header class="header">

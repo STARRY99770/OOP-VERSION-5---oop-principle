@@ -19,6 +19,7 @@ $current_user = $userManager->getCurrentUser($_SESSION);
     <title>Immigration Staff - E-Health Management System</title>
     <link rel="stylesheet" href="/pageIM/Immigration-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body id="immigration-page">
     <header>

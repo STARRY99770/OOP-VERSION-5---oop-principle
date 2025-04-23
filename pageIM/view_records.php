@@ -31,6 +31,7 @@ $records = $recordManager->getAllRecords();
   <title>Check Foreign Workers' Information</title>
   <link rel="stylesheet" href="/pageIM/view_records-style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
 

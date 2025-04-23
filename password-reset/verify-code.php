@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter verification code</title>
     <link rel="stylesheet" href="/pageFW/foreign-worker-login.css">
+    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
     <header>
