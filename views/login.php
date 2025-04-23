@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login Page</title>
     <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
     <link rel="stylesheet" href="/pageFW/foreign-worker-login.css">
+    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
     <header>

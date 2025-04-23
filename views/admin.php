@@ -73,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login Page</title>
   <link rel="stylesheet" href="/views/AdminStyle.css">
+  <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
 <header class="page-header">
