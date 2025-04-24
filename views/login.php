@@ -2,9 +2,10 @@
 session_start();
 
 $host = 'ehealth.mysql.database.azure.com';
-$user = 'Ehealthsystem@ehealth';
+$user = 'Ehealthsystem@ehealth'; // Include @server name here
 $password = 'ehealth@123';
 $database = 'foreign_workers';
+$port = 3306;
 
 $conn = new mysqli($host, $user, $password, $database);
 
