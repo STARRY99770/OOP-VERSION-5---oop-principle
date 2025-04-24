@@ -10,7 +10,7 @@ $message_script = '';
 
 try {
     // 初始化数据库连接
-    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $db = new DatabaseConnection("ehealth.mysql.database.azure.com", "Ehealthsystem", "ehealth@123", "foreign_workers");
     $conn = $db->getConnection();
 
     // 初始化管理器

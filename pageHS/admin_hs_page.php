@@ -5,7 +5,7 @@ require_once __DIR__ . '/../classes/UserManager.php';
 
 try {
     // Initialize database connection
-    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $db = new DatabaseConnection("ehealth.mysql.database.azure.com", "Ehealthsystem", "ehealth@123", "foreign_workers");
     $conn = $db->getConnection();
 
     // Get the current user

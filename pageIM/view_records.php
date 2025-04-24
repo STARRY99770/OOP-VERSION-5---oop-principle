@@ -3,7 +3,7 @@ require_once '../classes/DatabaseConnection.php';
 require_once '../classes/UserManager.php';
 require_once '../classes/RecordManager.php';
 
-$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+$db = new DatabaseConnection("ehealth.mysql.database.azure.com", "Ehealthsystem", "ehealth@123", "foreign_workers");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 $recordManager = new RecordManager($db);
