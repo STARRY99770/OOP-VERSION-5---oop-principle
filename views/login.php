@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$user = 'root';
-$password = '';
+$host = 'ehealth.mysql.database.azure.com';
+$user = 'Ehealthsystem';
+$password = 'ehealth@123';
 $database = 'foreign_workers';
 
 $conn = new mysqli($host, $user, $password, $database);
