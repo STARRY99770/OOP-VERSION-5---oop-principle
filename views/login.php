@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$host = 'codexuts.azurewebsites.net';
+$host = 'ehealth.mysql.database.azure.com';
 $user = 'Ehealthsystem';
 $password = 'ehealth@123';
 $database = 'foreign_workers';
