@@ -2,7 +2,7 @@
 session_start();
 
 $host = 'ehealth.mysql.database.azure.com';
-$user = 'Ehealthsystem';
+$user = 'Ehealthsystem@ehealth';
 $password = 'ehealth@123';
 $database = 'foreign_workers';
 
