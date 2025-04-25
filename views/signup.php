@@ -129,7 +129,7 @@ class DatabaseOperations {
 }
 
 try {
-    $dbConfig = new Database("sql113.infinityfree.com", "if0_38821759", "nKGQDvlOGL", "sql113.infinityfree.com");
+    $dbConfig = new Database("localhost", "root", "", "foreign_workers");
     $conn = $dbConfig->getConnection();
 
     if ($conn->connect_error) throw new Exception("Connection failed: " . $conn->connect_error);
