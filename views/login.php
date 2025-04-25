@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'foreign_workers';
+$host = 'sql113.infinityfree.com';
+$user = 'if0_38821759 ';
+$password = 'nKGQDvlOGL';
+$database = 'if0_38821759_foreign_worker';
 
 $conn = new mysqli($host, $user, $password, $database);
 

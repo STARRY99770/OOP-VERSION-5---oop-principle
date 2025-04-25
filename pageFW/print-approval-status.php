@@ -8,10 +8,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'foreign_workers';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "foreign_workers";
 $conn = new mysqli($servername, $username, $password, $database);
 
 if ($conn->connect_error) {

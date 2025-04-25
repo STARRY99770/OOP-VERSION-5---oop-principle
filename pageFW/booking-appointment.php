@@ -2,9 +2,9 @@
 session_start();
 
 class Database {
-    private $host = "ehealth.mysql.database.azure.com";
-    private $user = "Ehealthsystem";
-    private $pass = "ehealth@123";
+    private $host = "localhost";
+    private $user = "root";
+    private $pass = "";
     private $dbname = "foreign_workers";
     public $conn;
 

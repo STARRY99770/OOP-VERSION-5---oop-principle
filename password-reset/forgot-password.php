@@ -5,10 +5,10 @@ use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php'; // Include PHPMailer
 
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'foreign_workers';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "foreign_workers";
 
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {

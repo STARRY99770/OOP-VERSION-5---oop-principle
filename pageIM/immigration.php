@@ -4,7 +4,7 @@ require_once '../classes/UserManager.php';
 
 session_start();
 
-$db = new DatabaseConnection("ehealth.mysql.database.azure.com", "Ehealthsystem", "ehealth@123", "foreign_workers");
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 
