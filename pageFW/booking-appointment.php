@@ -2,10 +2,10 @@
 session_start();
 
 class Database {
-    private $host = "localhost";
-    private $user = "root";
-    private $pass = "";
-    private $dbname = "foreign_workers";
+    private $host = "sql313.infinityfree.com";
+    private $user = "if0_38830936";
+    private $pass = "IxMNMzyIdNj";
+    private $dbname = "if0_38830936_ehealth";
     public $conn;
 
     public function __construct() {

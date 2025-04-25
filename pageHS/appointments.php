@@ -11,7 +11,7 @@ $message_script = '';
 
 try {
     // 初始化数据库连接
-    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+    $db = new DatabaseConnection("sql313.infinityfree.com", "if0_38830936", "IxMNMzyIdNj", "if0_38830936_ehealth");
     $conn = $db->getConnection();
 
     // 获取当前用户

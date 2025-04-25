@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Initialize database connection
 try {
-    $db = new PDO('mysql:host=localhost;dbname=foreign_workers;charset=utf8', 'root', '');
+    $db = new PDO('mysql:host=sql313.infinityfree.com;dbname=if0_38830936_ehealth;charset=utf8', 'if0_38830936', 'IxMNMzyIdNj');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());

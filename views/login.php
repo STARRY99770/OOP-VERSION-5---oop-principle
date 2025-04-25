@@ -2,10 +2,10 @@
 session_start();
 
 // Database connection variables
-$servername = "localhost";
-$username = "root";
-$password = ""; // Update if you have a password for MySQL
-$database = "foreign_workers";
+$servername = "sql313.infinityfree.com";
+$username = "if0_38830936";
+$password = "IxMNMzyIdNj"; 
+$database = "if0_38830936_ehealth";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

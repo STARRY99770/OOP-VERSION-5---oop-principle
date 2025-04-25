@@ -3,7 +3,7 @@ require_once '../classes/DatabaseConnection.php';
 require_once '../classes/UserManager.php';
 require_once '../classes/RecordManager.php';
 
-$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
+$db = new DatabaseConnection("sql313.infinityfree.com", "if0_38830936", "IxMNMzyIdNj", "if0_38830936_ehealth");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 $recordManager = new RecordManager($db);
