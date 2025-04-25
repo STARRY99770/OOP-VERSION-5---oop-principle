@@ -1,31 +1,16 @@
 <?php
 session_start();
 
-// Step 1: Initialize MySQLi with SSL
 $host = 'ehealth.mysql.database.azure.com';
 $user = 'Ehealthsystem';
 $password = 'ehealth@123';
 $database = 'foreign_workers';
-$ssl_ca = 'C:/xampp/htdocs/certs/DigiCertGlobalRootCA.crt.pem'; // <-- Change this to the actual path on your server
 
-// Initialize connection object
-$con = mysqli_init();
+$conn = new mysqli($host, $user, $password, $database);
 
-if (!$con) {
-    die("mysqli_init failed");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-// Set SSL options
-mysqli_ssl_set($con, NULL, NULL, $ssl_ca, NULL, NULL);
-
-// Step 2: Establish real SSL connection
-if (!mysqli_real_connect($con, $host, $user, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
-    die("Connect error: " . mysqli_connect_error());
-}
-
-// Now assign $con to $conn so the rest of your code works as is
-$conn = $con;
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = trim($_POST['userID']);
