@@ -1,13 +1,15 @@
 <?php
 session_start();
+
+// Redirect to login if user is not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: /views/login.php");
     exit();
 }
 
-// 初始化数据库连接
+// Initialize database connection
 try {
-    $db = new PDO('mysql:host=localhost;dbname=foreign_workers;charset=utf8', 'root','');
+    $db = new PDO('mysql:host=localhost;dbname=foreign_workers;charset=utf8', 'root', '');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
@@ -43,7 +45,7 @@ try {
     die("Error updating notifications: " . $e->getMessage());
 }
 
-// Insert new notification if it doesn't already exist
+// Insert a welcome notification if it doesn't already exist
 $message = "Welcome to the Foreign Workers Services page!";
 try {
     $stmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = :user_id AND message = :message");
@@ -145,72 +147,65 @@ try {
         window.location.href = "/home.php";
     }
 
-function toggleProfileDropdown() {
-  const dropdown = document.getElementById('profileDropdown');
-  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
-function toggleNotificationDropdown() {
-    const dropdown = document.getElementById('notificationDropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
-// Optional: Click outside to close dropdown
-document.addEventListener('click', function (e) {
-    const notificationIcon = document.querySelector('.notification-icon');
-    const notificationDropdown = document.getElementById('notificationDropdown');
-    if (!notificationIcon.contains(e.target) && !notificationDropdown.contains(e.target)) {
-        notificationDropdown.style.display = 'none';
-    }
-});
-
-document.addEventListener('click', function (e) {
-  const profile = document.querySelector('.profile-icon');
-  const profileDropdown = document.getElementById('profileDropdown');
-  if (!profile.contains(e.target) && !profileDropdown.contains(e.target)) {
-    profileDropdown.style.display = 'none';
-  }
-});
-
-function markNotificationsAsRead() {
-    // Immediately remove the notification count
-    const notificationCount = document.querySelector('.notification-count');
-    if (notificationCount) {
-        notificationCount.remove();
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Call the backend API to mark notifications as read
-    fetch('/mark-notifications-read.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_id: <?php echo json_encode($user_id); ?> })
-    }).then(response => response.json())
-      .then(data => {
-          if (!data.success) {
-              console.error('Failed to mark notifications as read:', data.message);
-          }
-      })
-      .catch(error => {
-          console.error('Error marking notifications as read:', error);
-      });
-}
+    function toggleNotificationDropdown() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
 
-document.querySelector('.notification-icon').addEventListener('click', () => {
-    markNotificationsAsRead();
-});
-
-function renderNotifications(notifications) {
-    const notificationList = document.getElementById('notificationDropdown');
-    notificationList.innerHTML = ''; // 清空现有通知
-    notifications.forEach(notification => {
-        const li = document.createElement('li');
-        li.textContent = notification.message;
-        notificationList.appendChild(li);
+    // Close notification dropdown if clicked outside
+    document.addEventListener('click', function (e) {
+        const notificationIcon = document.querySelector('.notification-icon');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        if (!notificationIcon.contains(e.target) && !notificationDropdown.contains(e.target)) {
+            notificationDropdown.style.display = 'none';
+        }
     });
-}
+
+    // Close profile dropdown if clicked outside
+    document.addEventListener('click', function (e) {
+        const profileIcon = document.querySelector('.profile-icon');
+        const profileDropdown = document.getElementById('profileDropdown');
+        if (!profileIcon.contains(e.target) && !profileDropdown.contains(e.target)) {
+            profileDropdown.style.display = 'none';
+        }
+    });
+
+    function markNotificationsAsRead() {
+        // Immediately remove the notification count
+        const notificationCount = document.querySelector('.notification-count');
+        if (notificationCount) {
+            notificationCount.remove();
+        }
+
+        // Call backend API to mark notifications as read
+        fetch('/mark-notifications-read.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: <?php echo json_encode($user_id); ?> })
+        }).then(response => response.json())
+          .then(data => {
+              if (!data.success) {
+                  console.error('Failed to mark notifications as read:', data.message);
+              }
+          })
+          .catch(error => {
+              console.error('Error marking notifications as read:', error);
+          });
+    }
+
+    // Mark notifications as read on notification icon click
+    document.querySelector('.notification-icon').addEventListener('click', () => {
+        markNotificationsAsRead();
+    });
 </script>
+
 <footer class="footer">
     © 2025 Sarawak E-health Management System. All rights reserved.
 </footer>
