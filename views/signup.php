@@ -129,7 +129,7 @@ class DatabaseOperations {
 }
 
 try {
-    $dbConfig = new Database("ehealth.mysql.database.azure.com", "Ehealthsystem", "ehealth@123", "foreign_workers");
+    $dbConfig = new Database("localhost", "root", "", "foreign_workers");
     $conn = $dbConfig->getConnection();
 
     if ($conn->connect_error) throw new Exception("Connection failed: " . $conn->connect_error);

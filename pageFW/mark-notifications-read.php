@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 try {
-    $db = new PDO('mysql:host=ehealth.mysql.database.azure.com;dbname=foreign_workers;charset=utf8', 'Ehealthsystem','ehealth@123');
+    $db = new PDO('mysql:host=localhost;dbname=foreign_workers;charset=utf8', 'root','');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $user_id = $_SESSION['user_id'];

@@ -7,9 +7,9 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // DB connection
-$host = 'ehealth.mysql.database.azure.com';
-$user = 'Ehealthsystem';
-$password = 'ehealth@123';
+$host = 'localhost';
+$user = 'root';
+$password = '';
 $database = 'foreign_workers';
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
