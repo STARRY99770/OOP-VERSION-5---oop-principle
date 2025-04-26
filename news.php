@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - Sarawak E-health Management System</title>
+    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
     <link rel="stylesheet" href="/home.css">
     <link rel="stylesheet" href="/news.css">
 </head>
@@ -16,9 +17,9 @@
             <h1>Sarawak E-health Management System</h1>
         </div>
         <div class="top-right-container">
-            <a href="/home.php"><button>Home</button></a>
-            <a href="/home.php"><button>About Us</button></a>
-            <a href="/home.php"><button>Contact</button></a>
+            <a href="/index.php"><button>Home</button></a>
+            <a href="/index.php"><button>About Us</button></a>
+            <a href="/index.php"><button>Contact</button></a>
             <a href="/views/login.php"><button class="login-btn">Login</button></a>
         </div>
     </header>

@@ -132,6 +132,7 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <title>Booking Appointment</title>
     <link rel="stylesheet" href="/pageFW/booking-appointment.css">
+    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
     <header class="header">
