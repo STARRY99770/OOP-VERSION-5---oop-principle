@@ -4,7 +4,7 @@ require_once '../classes/UserManager.php';
 
 session_start();
 
-$db = new DatabaseConnection("sql313.infinityfree.com", "if0_38830936", "IxMNMzyIdNj", "if0_38830936_ehealth");
+$db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
 $conn = $db->getConnection();
 $userManager = new UserManager($conn);
 
