@@ -5,7 +5,7 @@ require_once __DIR__ . '/../classes/UserManager.php';
 
 try {
     // Initialize database connection
-    $db = new DatabaseConnection("sql313.infinityfree.com", "if0_38830936", "IxMNMzyIdNj", "if0_38830936_ehealth");
+    $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
     $conn = $db->getConnection();
 
     // Get the current user
