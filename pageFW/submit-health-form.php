@@ -7,10 +7,10 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // DB connection
-$servername = "sql313.infinityfree.com";
-$username = "if0_38830936";
-$password = "IxMNMzyIdNj"; 
-$database = "if0_38830936_ehealth";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "foreign_workers";
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
