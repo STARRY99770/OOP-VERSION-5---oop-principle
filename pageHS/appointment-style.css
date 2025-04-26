@@ -339,49 +339,24 @@ select {
     background-color: #218838;
 }
 
-/* Notifications Popup */
-.notifications-popup {
-    position: absolute;
-    top: 60px; /* 调整弹窗的位置，使其在图标下方 */
-    right: 20px; /* 靠右对齐 */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    width: 300px; /* 设置宽度 */
-    z-index: 1000; /* 确保弹窗在最上层 */
-    display: none; /* 默认隐藏 */
+/* 美化下拉菜单 */
+.status-filter, .appointment-table select {
+    appearance: none; /* 移除默认样式 */
+    -webkit-appearance: none; /* 兼容 Safari */
+    -moz-appearance: none; /* 兼容 Firefox */
+    background-color: #f9f9f9; /* 背景颜色 */
+    border: 1px solid #ccc; /* 边框颜色 */
+    border-radius: 5px; /* 圆角 */
+    padding: 8px 12px; /* 内边距 */
+    font-size: 14px; /* 字体大小 */
+    color: #333; /* 字体颜色 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
 }
 
-.notifications-popup ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* 鼠标悬停时的效果 */
+.status-filter:hover, .appointment-table select:hover {
+    border-color: #007bff; /* 边框颜色变为蓝色 */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 添加阴影效果 */
 }
 
-.notifications-popup li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-    color: #333;
-}
-
-.notifications-popup li:last-child {
-    border-bottom: none;
-}
-
-.notifications-popup button {
-    margin-top: 10px;
-    background-color: #f8350e;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.notifications-popup button:hover {
-    background-color: #d32f2f;
-}

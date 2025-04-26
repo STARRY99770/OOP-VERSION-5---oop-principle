@@ -5,7 +5,7 @@ require_once __DIR__ . '/../classes/UserManager.php';
 require_once __DIR__ . '/../classes/BaseManager.php';
 require_once __DIR__ . '/../classes/ManagerInterface.php';
 require_once __DIR__ . '/../classes/AppointmentManager.php';
-require_once __DIR__ . '/../classes/notificationManager.php'; // 引入 NotificationManager
+require_once __DIR__ . '/../classes/notificationManager.php';
 
 $message_script = '';
 
