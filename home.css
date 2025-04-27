@@ -3,7 +3,6 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #e6f7ff;
     color: #000;
 }
 
@@ -21,7 +20,6 @@ header {
     z-index: 1000;
 }
 
-/* 背景图片样式 */
 .background {
     position: fixed; /* 固定背景，不随滚动移动 */
     top: 0;
@@ -34,7 +32,6 @@ header {
     filter: brightness(50%); /* 调低亮度 */
     z-index: -1; /* 放置在内容后面 */
 }
-
 .menu-btn {
     font-size: 24px;
     background: none;
@@ -100,16 +97,125 @@ h1 {
     background-color: #003366; /* Retains hover background */
 }
 
-
-/* 主内容区域 */
-main {
-    text-align: center;
-    padding: 20px;
-    padding-top: 60px; /* Adjusted to account for fixed header */
+.welcome {
+    position: relative; /* 设置相对定位以容纳文字 */
+    display: flex;
+    align-items: center;
+    min-height: 100vh; /* 保持原高度 */
+    background-size: cover; /* 确保背景图片覆盖容器 */
+    background-position: top center; /* 背景图片顶部对齐 */
+    width: 100%;
+    margin: 0; /* 移除外边距 */
+    padding: 0; /* 移除内边距 */
+    overflow: hidden;
+    position: relative; /* 设置相对定位以容纳文字 */
 }
 
-.welcome h2 {
-    color: #ffffff;
+.home-text {
+    position: absolute; /* 绝对定位文字 */
+    top: 55%; /* 距离顶部 50% */
+    left: 4%; /* 距离左侧 20% */
+    transform: translateY(-50%); /* 垂直居中调整 */
+    text-align: left; /* 左对齐文字 */
+    color: #fff; /* 设置文字颜色为白色 */
+    font-size: 2rem; /* 调整字体大小 */
+    font-weight: bold; /* 加粗文字 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 添加文字阴影以提高可读性 */
+    z-index: 2; /* 确保文字在图片上方 */
+    max-width: 50%; /* 限制文字宽度 */
+}
+
+.heading{
+    text-align: center;
+    font-size:30px;
+    color:#000;
+    padding: 2rem;
+    margin: 0;
+    background: #cce6ff;
+}
+
+.about p {
+    font-size: 16px; /* 调整字体大小 */
+    font-weight: bold;
+    line-height: 1.8; /* 增加行距 */
+    color:#004A99 ; /* 设置文字颜色 */
+    text-align: center; /* 文字两端对齐 */
+    background-color: #cce6ff;
+    padding: 40px; /* 增加内边距 */
+    margin: 0; /* 移除外边距 */
+    border-radius: 0; /* 移除圆角效果 */
+    box-shadow: none; /* 移除阴影效果 */
+    width: 94.7%; 
+}
+
+.mission-vision {
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: space-between; /* 两列之间保持间距 */
+    align-items: center; /* 垂直居中 */
+    padding:40px; /* 调整上下内边距 */
+    margin:  0; /* 调整上下外边距 */
+    background:#f68903;/* 添加渐变背景 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加平滑过渡效果 */
+    border-radius: 40px; /* 圆角效果 */
+}
+
+.mission-vision:hover {
+    transform: scale(1.02); /* 鼠标悬停时轻微放大 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 增强阴影效果 */
+    background: #f68903;
+}
+
+.mission-vision .column {
+    flex: 1; /* 每列占据相等的宽度 */
+    padding: 20px; /* 增加内边距 */
+    text-align: center; /* 居中对齐文字 */
+    position: relative; /* 为伪元素定位 */
+    overflow: hidden; /* 防止内容溢出 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+    transition: transform 0.3s ease; /* 添加平滑过渡效果 */
+}
+
+.mission-vision .column:hover {
+    transform: translateY(-5px); /* 鼠标悬停时轻微上移 */
+}
+
+.mission-vision .column h3 {
+    display: flex; /* 使用 Flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    gap: 10px; /* 图标和文字之间的间距 */
+    font-size: 1.8rem; /* 调整字体大小 */
+    color: white; /* 设置标题颜色 */
+    font-weight: bold; /* 加粗标题 */
+    margin: 0;
+}
+
+.mission-vision .column h3 .icon {
+    width: 50px; /* 设置图标宽度 */
+    height: 50px; /* 设置图标高度 */
+}
+
+.mission-vision .column p {
+    opacity: 0; /* 默认隐藏段落 */
+    position: absolute;
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: 90%; /* 限制宽度，避免内容溢出 */
+    line-height: 1.6; /* 增加行距，提升可读性 */
+    font-size: 1rem; /* 调整字体大小 */
+    color: white; /* 设置段落文字颜色 */
+    transition: opacity 0.3s ease; /* 添加平滑过渡效果 */
+}
+
+.mission-vision .column:hover h3 {
+    opacity: 0; /* 鼠标悬停时隐藏标题 */
+}
+
+.mission-vision .column:hover p {
+    opacity: 1; /* 鼠标悬停时显示段落 */
 }
 
 .contact {
@@ -122,27 +228,6 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-
-
-.contact p {
-    font-size: 1rem; /* 段落文字大小 */
-    color: #000; /* 段落文字颜色 */
-    text-align: left; /* 水平居左 */
-    margin: 10px 0; /* 每段的上下间距 */
-}
-
-.contact h3 {
-    color: #004a99; /* 设置标题颜色 */
-    font-size: 1.8rem; /* 标题大小 */
-    margin-bottom: 10px; /* 与内容的间距 */
-    text-align: center; /* 标题居中 */
-}
-
-.contact strong {
-    color: #004a99; /* 突出Email和Phone的标签 */
-}
-
 /* 顶部右侧容器样式 */
 .top-right-container {
     display: flex;
@@ -169,37 +254,6 @@ main {
     background-color: #cc5500;
 }
 
-/* Notification 样式 */
-.notification {
-    background-color: #ff6600;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-
-/* 图片居中容器样式 */
-.center-image {
-    flex: 1; /* 图片占 50% */
-    display: flex;
-    justify-content: center;
-    align-items: center; /* 图片居中 */
-    background-color: #f5f5f5; /* 可选：图片区域背景颜色 */
-}
-
-.center-image img {
-    max-width: 100%; /* 确保图片适应容器 */
-    height: auto; /* 保持图片比例 */
-    border-radius: 10px; /* 添加圆角（可选） */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 设置阴影 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 鼠标悬停时的效果 */
-}
-
-.center-image img:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 增强阴影效果 */
-}
-
 /* 注册按钮样式 */
 .register {
     text-align: center; /* 居中对齐 */
@@ -219,14 +273,6 @@ main {
 
 .register button:hover {
     background-color: #cc5500; /* 悬停时颜色变化 */
-}
-
-.flex-container {
-    display: flex; /* 图片和文字并排布局 */
-    align-items: center; /* 垂直方向居中 */
-    justify-content: flex-start; /* 水平方向从左到右对齐 */
-    gap: 30px; /* 图片和文字之间的间隔 */
-    margin-top: 20px;
 }
 
 .text-content {
@@ -254,99 +300,109 @@ main {
 }
 
 @media (max-width: 768px) {
-    .flex-container {
-        flex-direction: column; /* 图片和文字垂直排列 */
-        align-items: center; /* 居中对齐内容 */
-        padding: 10px; /* 给内容增加一些内边距 */
-    }
-
     .text-content {
         text-align: center;
         padding-top: 10px; /* 图片和文字的间距 */
     }
-
-    .center-image img {
-        max-width: 80%; /* 图片宽度调整为 80% 屏幕宽度 */
-    }
 }
 
-.about {
-    background-color: #cce6ff; /* 背景颜色 */
-    padding: 20px; /* 内边距 */
-    border-radius: 10px; /* 圆角效果 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-    width: 80%;
-    margin: 20px auto; /* 居中对齐 */
-    text-align: center; /* 标题和介绍文本居中 */
-}
-
-.about h3 {
-    color: #004a99;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.about p {
-    color: #000;
-    font-size: 1rem;
-    margin-bottom: 20px;
-}
-
-.grid-container { 
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3列布局 */
-    gap: 20px; /* 格子之间的间距 */
-    justify-items: center; /* 水平方向居中 */
-    align-items: start; /* 垂直方向顶部对齐 */
-}
-
-.grid-item {
-    position: relative; /* 确保隐藏内容在当前格子内定位 */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-    text-align: center; /* 中心对齐标题和内容 */
-    overflow: hidden; /* 防止内容超出格子范围 */
-}
-
-.grid-item:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.grid-item h4 {
+.three-column-layout {
+    display: flex;
+    flex-wrap: wrap; /* 支持换行 */
+    gap: 20px; /* 控制列之间的间距 */
     margin: 0;
-    color: #004a99;
-    font-size: 1.2rem;
+    background: white;
 }
 
-.hidden-content {
-    display: none; /* 默认隐藏内容 */
-    color: #000; /* 内容文字颜色 */
-    font-size: 0.9rem; /* 内容文字大小 */
-    margin-top: 10px; /* 与标题保持间距 */
-    overflow-y: auto; /* 如果内容超出高度，显示滚动条 */
-    max-height: 150px; /* 限制最大高度 */
-    padding-right: 10px; /* 避免滚动条遮挡文字 */
-    text-align: left; /* 设置内容水平居左 */
-    line-height: 1.6; /* 增加行距以提高可读性 */
-    transition: all 0.3s ease-in-out; /* 平滑过渡效果 */
+.three-column-layout .column {
+    flex: 1 1 calc(33.333% - 20px); /* 每列占 1/3 宽度，减去间距 */
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc; /* 可选：添加边框 */
+    border-radius: 5px; /* 可选：圆角 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 可选：阴影效果 */
+    display: block;
 }
 
-.overlay {
-    position: fixed;
+.three-column-layout .column img {
+    max-width: 100%; /* 确保图片自适应 */
+    height: auto;
+    border-radius: 5px; /* 可选：图片圆角 */
+}
+
+.three-column-layout .column.hidden {
+    display: none; /* 隐藏内容 */
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.view-all-container button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.view-all-container button:hover {
+    background-color: #0056b3;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px; /* 可选：图片圆角 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 可选：阴影效果 */
+}
+
+.image-container img {
+    width: 100%;
+    height: 00%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease; /* 鼠标悬停时的缩放效果 */
+}
+
+.image-container:hover img {
+    transform: scale(1.1); /* 放大图片 */
+}
+
+.image-container .overlay {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
-    z-index: 999; /* 确保位于内容之上但低于 sidebar */
-    display: none; /* 默认隐藏 */
+    background: rgba(0, 0, 0, 0.6); /* 半透明黑色背景 */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* 淡入淡出效果 */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.overlay.active {
-    display: block; /* 显示遮罩层 */
+.image-container:hover .overlay {
+    opacity: 1; /* 鼠标悬停时显示内容 */
+}
+
+.image-container .overlay h4 {
+    margin: 10px 0;
+    font-size: 1.5em;
+}
+
+.image-container .overlay p {
+    font-size: 0.9em;
+    line-height: 1.5;
 }
