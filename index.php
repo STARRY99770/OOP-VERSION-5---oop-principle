@@ -20,7 +20,6 @@
             <button onclick="navigateTo('home')">Home</button>
             <button onclick="navigateTo('about')">About Us</button>
             <button onclick="navigateTo('contact')">Contact</button>
-            <a href="/views/signup.php"><button>Sign Up</button></a>
             <a href="/views/login.php"><button class="login-btn">Login</button></a>
         </div>
     </header>
@@ -40,6 +39,10 @@
     <img src="/images/home.jpg" alt="welcome" class="welcome">
     <div class="home-text">
         <h2>Ensuring a Healthier Workforce for Sarawak's Future</h2>
+        <!-- 将按钮移动到标题下方 -->
+        <div class="register">
+            <a href="/views/signup.php"><button>Foreign Workers Register</button></a>
+        </div>
     </div>
 </section>
         
@@ -150,13 +153,13 @@
     <button id="view-all-btn" onclick="toggleView()">View All</button>
 </div>
 
-        <section id="contact" class="contact">
-            <h3>Contact Us</h3>
-            <p>Reach out to us for more details and inquiries.</p>
-            <p><strong>Email:</strong> ehealthmanagementsarawak@gmail.com</p>
-            <p><strong>Phone:</strong> +60 82-123 4567</p>
-        </section>        
-    </main>
+<footer>
+    <h3>Contact Us</h3>
+    <p>Reach out to us for more details and inquiries.</p>
+    <p>Email: ehealthmanagementsarawak@gmail.com</p>
+    <p>Phone: +60 82-123 4567</p>
+    <p>© 2025 Sarawak E-health Management System. All rights reserved.</p>
+</footer>
 
     <script>
         function navigateTo(sectionId) {
