@@ -82,7 +82,7 @@ $conn->close();
 <body>
     <header>
         <div class="logo-title centered-title">
-            <a href="/home.php" class="back-button">Back</a>
+            <a href="/index.php" class="back-button">Back</a>
             <img src="/images/srw.png" alt="Logo" class="logo">
             <h1 class="title">Sarawak E-health Management System</h1>
         </div>
