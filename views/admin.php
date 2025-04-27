@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
 
       <button type="submit">Log In</button>
-      <button type="button" class="back-button" onclick="window.location.href='/home.php'">Back to main page</button>
+      <button type="button" class="back-button" onclick="window.location.href='/index.php'">Back to main page</button>
 
       <?php if (!empty($error)): ?>
         <p style="color: red; margin-top: 10px;"><?php echo htmlspecialchars($error); ?></p>
