@@ -1,5 +1,5 @@
 <?php
-echo $this->gender;
+
 abstract class RecordManagerBase {
     protected $db;
 
