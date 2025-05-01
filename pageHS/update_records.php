@@ -3,43 +3,40 @@ session_start();
 require_once __DIR__ . '/../classes/DatabaseConnection.php';
 require_once __DIR__ . '/../classes/UserManager.php';
 require_once __DIR__ . '/../classes/FormManager.php';
-require_once __DIR__ . '/../classes/NotificationManager.php'; // 确保引入 NotificationManager 类
+require_once __DIR__ . '/../classes/NotificationManager.php'; 
 
 $message_script = '';
 
 try {
-    // 初始化数据库连接
+    
     $db = new DatabaseConnection("localhost", "root", "", "foreign_workers");
     $conn = $db->getConnection();
 
-    // 获取当前用户
+    
     $userManager = new UserManager($conn);
     $current_user = $userManager->getCurrentUser($_SESSION);
 
-    // 处理表单逻辑
+    
     $formManager = new FormManager($conn);
-    $notificationManager = new NotificationManager($conn); // 初始化通知管理器
+    $notificationManager = new NotificationManager($conn); 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $form_id = $_POST['form_id'];
         $new_status = $_POST['health_status'];
         $new_comment = $_POST['comment'];
-        $worker_id = $_POST['user_id']; // 假设表单数据中包含 user_id
+        $worker_id = $_POST['user_id']; 
 
         if ($formManager->updateForm($form_id, $new_status, $new_comment)) {
-            // 设置通知消息，添加换行符
+            
             $notification_message = "Your medical form has been ($new_status).\n\nComment: $new_comment.";
 
-            // 添加通知
             $notificationManager->addNotification($worker_id, $notification_message);
 
-            // 确保换行符和特殊字符在 JavaScript 中正确显示
-            $escaped_message = addslashes($notification_message); // 转义特殊字符
+            $escaped_message = addslashes($notification_message);
             $message_script = "<script>alert('" . str_replace("\n", "\\n", $escaped_message) . "');</script>";
         }
     }
 
-    // 获取表单数据
     $forms = $formManager->getForms();
     if (!$forms) {
         throw new Exception("Failed to fetch forms data.");
@@ -228,36 +225,33 @@ try {
       });
     });
 
-    // 为每个 "View" 按钮添加点击事件
     document.querySelectorAll('.btn-view').forEach(function(button) {
       button.addEventListener('click', function(event) {
-        event.preventDefault(); // 阻止默认行为（跳转）
+        event.preventDefault();
 
-        const formId = this.getAttribute('href').split('form_id=')[1]; // 获取 form_id
+        const formId = this.getAttribute('href').split('form_id=')[1]; 
         const iframe = document.getElementById('pdf-viewer-modal');
-        iframe.src = `view-pdf.php?form_id=${formId}`; // 设置 iframe 的 src
+        iframe.src = `view-pdf.php?form_id=${formId}`; 
 
-        // 显示模态框
+
         const modal = document.getElementById('pdf-modal');
         modal.style.display = 'block';
       });
     });
 
-    // 关闭模态框
     document.querySelector('.close-btn').addEventListener('click', function() {
       const modal = document.getElementById('pdf-modal');
       modal.style.display = 'none';
       const iframe = document.getElementById('pdf-viewer-modal');
-      iframe.src = ''; // 清空 iframe 的 src
+      iframe.src = ''; 
     });
 
-    // 点击模态框外部关闭模态框
     window.addEventListener('click', function(event) {
       const modal = document.getElementById('pdf-modal');
       if (event.target === modal) {
         modal.style.display = 'none';
         const iframe = document.getElementById('pdf-viewer-modal');
-        iframe.src = ''; // 清空 iframe 的 src
+        iframe.src = ''; 
       }
     });
   </script>

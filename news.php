@@ -52,7 +52,10 @@
                         </div>
                         <h3 class="news-title">New Health Screening Guidelines</h3>
                         <p class="news-date">April 8, 2025</p>
-                        <p class="news-excerpt">The Sarawak Health Department has announced updated health screening requirements for foreign workers. These new guidelines aim to improve the efficiency and effectiveness of the screening process while ensuring the health and safety of all workers. The updates include new testing protocols, streamlined documentation procedures, and enhanced digital reporting systems. The new system will be implemented starting next month, with a transition period for all stakeholders to adapt to the changes. Training sessions will be provided to medical staff and administrators to ensure smooth implementation.</p>
+                        <p class="news-excerpt">The Sarawak Health Department has announced updated health screening requirements for foreign workers. 
+                            These new guidelines aim to improve the efficiency and effectiveness of the screening process while ensuring the health and safety of all workers. 
+                            The updates include new testing protocols, streamlined documentation procedures, and enhanced digital reporting systems. The new system will be implemented starting next month,
+                             with a transition period for all stakeholders to adapt to the changes. Training sessions will be provided to medical staff and administrators to ensure smooth implementation.</p>
                         <div class="news-footer">
                             <span class="news-author">Health Department</span>
                             <span class="news-views">1,234 views</span>
@@ -70,7 +73,9 @@
                         </div>
                         <h3 class="news-title">System Upgrade Announcement</h3>
                         <p class="news-date">April 5, 2025</p>
-                        <p class="news-excerpt">The E-health Management System will undergo scheduled maintenance to implement new features and improvements. This upgrade will enhance system performance, security, and user experience. Key updates include improved appointment scheduling, enhanced data analytics, and new mobile-friendly features. The maintenance window is scheduled for the weekend to minimize disruption to daily operations. Users will be notified in advance about the exact timing and duration of the maintenance period.</p>
+                        <p class="news-excerpt">The E-health Management System will undergo scheduled maintenance to implement new features and improvements. This upgrade will enhance system performance, security, and user experience. 
+                            Key updates include improved appointment scheduling, enhanced data analytics, and new mobile-friendly features. The maintenance window is scheduled for the weekend to minimize disruption to daily operations.
+                             Users will be notified in advance about the exact timing and duration of the maintenance period.</p>
                         <div class="news-footer">
                             <span class="news-author">IT Department</span>
                             <span class="news-views">987 views</span>
@@ -88,7 +93,9 @@
                         </div>
                         <h3 class="news-title">New Medical Partner Added</h3>
                         <p class="news-date">April 1, 2025</p>
-                        <p class="news-excerpt">Sarawak E-health Management System welcomes three new approved medical facilities to the network. These facilities have been carefully selected based on their expertise, equipment, and commitment to maintaining high standards of healthcare services for foreign workers. The new partners will help expand the coverage of health screening services across the region, reducing waiting times and improving access to quality healthcare. Each facility has undergone a rigorous evaluation process to ensure they meet our strict standards.</p>
+                        <p class="news-excerpt">Sarawak E-health Management System welcomes three new approved medical facilities to the network. These facilities have been carefully selected based on their expertise, 
+                            equipment, and commitment to maintaining high standards of healthcare services for foreign workers. The new partners will help expand the coverage of health screening services across the region, 
+                            reducing waiting times and improving access to quality healthcare. Each facility has undergone a rigorous evaluation process to ensure they meet our strict standards.</p>
                         <div class="news-footer">
                             <span class="news-author">Partnership Team</span>
                             <span class="news-views">756 views</span>
@@ -106,7 +113,9 @@
                         </div>
                         <h3 class="news-title">Staff Training Program</h3>
                         <p class="news-date">March 28, 2025</p>
-                        <p class="news-excerpt">Comprehensive training program launched for medical staff handling foreign worker health screenings. The program includes updated protocols, new testing procedures, and best practices for maintaining high standards of care. All participating medical facilities are required to complete this training. The program consists of both online modules and hands-on workshops, ensuring that staff are well-equipped to handle the new requirements. Certification will be provided upon successful completion of the training.</p>
+                        <p class="news-excerpt">Comprehensive training program launched for medical staff handling foreign worker health screenings. The program includes updated protocols, new testing procedures,
+                             and best practices for maintaining high standards of care. All participating medical facilities are required to complete this training. The program consists of both online modules and hands-on workshops, 
+                             ensuring that staff are well-equipped to handle the new requirements. Certification will be provided upon successful completion of the training.</p>
                         <div class="news-footer">
                             <span class="news-author">Training Department</span>
                             <span class="news-views">543 views</span>
@@ -124,7 +133,9 @@
                         </div>
                         <h3 class="news-title">New Digital Health Pass Implementation</h3>
                         <p class="news-date">March 25, 2025</p>
-                        <p class="news-excerpt">Sarawak E-health Management System introduces a new Digital Health Pass for foreign workers. This innovative solution replaces traditional paper-based health records with a secure digital system. The Digital Health Pass will store all medical records, vaccination history, and screening results in one accessible platform. Employers and authorized medical personnel can access the information instantly, reducing paperwork and improving efficiency. The system includes QR code verification and real-time updates, ensuring the most current health information is always available.</p>
+                        <p class="news-excerpt">Sarawak E-health Management System introduces a new Digital Health Pass for foreign workers. This innovative solution replaces traditional paper-based health records with a secure digital system.
+                             The Digital Health Pass will store all medical records, vaccination history, and screening results in one accessible platform. Employers and authorized medical personnel can access the information instantly, 
+                             reducing paperwork and improving efficiency. The system includes QR code verification and real-time updates, ensuring the most current health information is always available.</p>
                         <div class="news-footer">
                             <span class="news-author">Digital Innovation Team</span>
                             <span class="news-views">432 views</span>
@@ -142,7 +153,9 @@
                         </div>
                         <h3 class="news-title">E-health Mobile App Now Available</h3>
                         <p class="news-date">March 20, 2025</p>
-                        <p class="news-excerpt">The official Sarawak E-health Management System mobile app is now available for download on both iOS and Android platforms. The app provides foreign workers with easy access to their health records, appointment scheduling, and important notifications. Features include real-time appointment booking, health status tracking, and direct communication with medical facilities. The app also includes multilingual support to ensure accessibility for all foreign workers. Regular updates will be provided to enhance functionality and user experience based on feedback from the community.</p>
+                        <p class="news-excerpt">The official Sarawak E-health Management System mobile app is now available for download on both iOS and Android platforms. The app provides foreign workers with easy access to their health records, 
+                            appointment scheduling, and important notifications. Features include real-time appointment booking, health status tracking, and direct communication with medical facilities. The app also includes multilingual support to 
+                            ensure accessibility for all foreign workers. Regular updates will be provided to enhance functionality and user experience based on feedback from the community.</p>
                         <div class="news-footer">
                             <span class="news-author">Mobile Development Team</span>
                             <span class="news-views">321 views</span>
