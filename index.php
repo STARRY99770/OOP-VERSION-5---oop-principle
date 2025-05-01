@@ -39,7 +39,6 @@
     <img src="/images/home.jpg" alt="welcome" class="welcome">
     <div class="home-text">
         <h2>Ensuring a Healthier Workforce for Sarawak's Future</h2>
-        <!-- 将按钮移动到标题下方 -->
         <div class="register">
             <a href="/views/signup.php"><button>Foreign Workers Register</button></a>
         </div>
@@ -61,7 +60,7 @@
     </div>
     <div class="column">
         <h3>
-            <img src="../images/vision-icon.jpg" alt="Vision Icon" class="icon"> <!-- 添加图标 -->
+            <img src="../images/vision-icon.jpg" alt="Vision Icon" class="icon"> <!-- add icon-->
             <span>Our Vision</span>
         </h3>
         <p>To be a leading platform in promoting a healthier and safer workforce through innovative health management solutions.</p>
@@ -73,7 +72,6 @@
         </section>
 
         <section id="grid-container" class="three-column-layout">
-    <!-- 前 3 个格子 -->
     <div class="column">
         <div class="image-container">
             <img src="/images/health-screening.jpg" alt="Health Screening">
@@ -84,7 +82,7 @@
         </div>
     </div>
     <div class="column">
-        <div class="image-container">
+        <div class="image-container"> 
             <img src="/images/disease-monitoring.jpg" alt="Disease Monitoring">
             <div class="overlay">
                 <h4>Disease Monitoring</h4>
@@ -96,7 +94,7 @@
     <div class="column hidden">
         <div class="image-container">
             <img src="/images/medical-clearance.jpg" alt="Medical Clearance">
-            <div class="overlay">
+            <div class="overlay"> 
                 <h4>Medical Clearance</h4>
                 <p>After passing health checks, the Sarawak Health Department approves results for work permit issuance. If a serious illness is found, the employer and authorities are informed.</p>
             </div>
@@ -108,7 +106,7 @@
             <img src="/images/public-health.jpg" alt="Public Health">
             <div class="overlay">
                 <h4>Public Health</h4>
-                <p>The department prevents disease outbreaks among foreign workers through vaccination programs and health awareness campaigns, ensuring workers receive necessary medical care when required.</p>
+                <p>The department prevents disease outbreaks among foreign workers through vaccination programs and health awareness campaigns,ensuring workers receive necessary medical care when required.</p>
             </div>
         </div>
     </div>
@@ -165,32 +163,27 @@
         function navigateTo(sectionId) {
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' }); // 平滑滚动到目标区域
+                targetSection.scrollIntoView({ behavior: 'smooth' }); 
             }
         }
         function toggleContent(contentId) { //aboutUs.js
-            const content = document.getElementById(contentId); // 获取目标内容
-            if (content) { // 检查是否存在该元素
+            const content = document.getElementById(contentId);
+            if (content) { 
                 if (content.style.display === "none" || content.style.display === "") {
-                    content.style.display = "block"; // 显示内容
+                    content.style.display = "block"; 
                 } else {
-                    content.style.display = "none"; // 隐藏内容
+                    content.style.display = "none"; 
                 }
             } else {
-                console.error("No element found with ID:", contentId); // 调试日志
+                console.error("No element found with ID:", contentId); 
             }
-        }
-
-        function toggleMenu() {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("open");
         }
 
         function toggleMenu() {
             const sidebar = document.getElementById("sidebar");
             const overlay = document.getElementById("overlay");
             sidebar.classList.toggle("open");
-            overlay.classList.toggle("active"); /* 显示或隐藏遮罩层 */
+            overlay.classList.toggle("active"); 
         }
 
         function toggleView() {
@@ -204,11 +197,11 @@
 
             hiddenItems.forEach(item => {
                 if (item.style.display === 'block') {
-                    item.style.display = 'none'; // 隐藏
-                    viewAllBtn.textContent = 'View All'; // 按钮文字切换
+                    item.style.display = 'none'; 
+                    viewAllBtn.textContent = 'View All'; 
                 } else {
-                    item.style.display = 'block'; // 显示
-                    viewAllBtn.textContent = 'Show Less'; // 按钮文字切换
+                    item.style.display = 'block'; 
+                    viewAllBtn.textContent = 'Show Less'; 
                 }
             });
         }

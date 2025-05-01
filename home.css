@@ -271,6 +271,7 @@ h1 {
 
 .register button:hover {
     background-color: #cc5500; 
+}
 
 .three-column-layout {
     display: flex;

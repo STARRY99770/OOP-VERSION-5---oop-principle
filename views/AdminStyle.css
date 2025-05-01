@@ -1,4 +1,3 @@
-/* 页面整体样式 */
 body::before {
   content: "";
   position: absolute;
@@ -12,14 +11,14 @@ body::before {
 
 body {
   font-family: 'Roboto', Arial, sans-serif;
-  background-color: #ffffff; /* 白色背景 */
+  background-color: #ffffff; 
   margin: 0;
   padding: 0;
-  display: flex; /* 启用flexbox布局 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  height: 100vh; /* 占满视口高度 */
-  box-sizing: border-box; /* 确保内边距和边框计算在内 */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  box-sizing: border-box; 
   background-image: url('/images/sarawakflag.jpg');
   background-size: cover;
   background-position: center;
@@ -54,12 +53,12 @@ header.page-header {
 
 .page-header h1 {
   margin: 0;
-  color: white; /* 白色字体 */
+  color: white; 
   font-size: 24px;
   text-align: center;
 }
 
-/* 登录框样式 */
+
 .login-container {
   background: #ffffff;
   padding: 20px;
@@ -67,17 +66,17 @@ header.page-header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 300px;
   text-align: center;
-  border: 1px solid #004a99; /* 蓝色边框 */
+  border: 1px solid #004a99;
   z-index: 2; /* Ensure login container is above the overlay */
   position: relative; /* Establish stacking context */
 }
 
 .login-container h2 {
   margin-bottom: 20px;
-  color: #004a99; /* 蓝色小标题 */
+  color: #004a99; 
 }
 
-/* 输入框的边距与样式 */
+
 label {
   display: block;
   margin: 10px 0 5px;
@@ -91,11 +90,11 @@ input[type="password"] {
   margin-bottom: 15px;
   border: 1px solid #004a99;
   border-radius: 5px;
-  background-color: #f0f8ff; /* 浅蓝背景 */
-  box-sizing: border-box; /* 确保内边距计算在宽度中 */
+  background-color: #f0f8ff; 
+  box-sizing: border-box; 
 }
 
-/* 调整按钮与字体颜色 */
+
 .radio-buttons label {
   margin: 5px 0;
   display: block;
@@ -114,7 +113,7 @@ button {
 }
 
 button:hover {
-  background-color: #003366; /* 按钮悬停的深蓝色 */
+  background-color: #003366; 
 }
 
 .back-button {
