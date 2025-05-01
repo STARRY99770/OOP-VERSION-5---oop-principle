@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/0e9f5716-d56b-47a2-b34a-f54e1ae215b1/resourceGroups/SarawakE-healthManagementSystem2025_group/providers/Microsoft.Web/sites/SarawakE-healthManagementSystem2025",
+    "appService.deploySubpath": "."
+}
